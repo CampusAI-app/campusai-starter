@@ -8,373 +8,376 @@
 <link rel="icon" href="assets/campusai-spark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Parts, adapted to plain CSS and the CampusAI palette: Magic UI border-beam (the paste box only),
+   Magic UI animated-beam (the connections diagram, drawn still), Magic UI marquee (one slow row). */
+:root {
+  --bg: #f7f3ef; --card: #ffffff; --ink: #1a1416; --soft: #5f5559; --faint: #93898c; --line: #ebe3de;
+  --red: #c41e2a; --red-ink: #a3161f; --tint: #fbeeee;
+  --shadow: 0 1px 0 var(--line), 0 14px 34px -26px rgba(60,20,25,.35);
+  --claude: linear-gradient(155deg, #8f1420 0%, #4a0b12 60%, #1d0a0d 100%);
+  --hero-glow: rgba(196,30,42,.10);
+  --logo-l: block; --logo-d: none;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #faf9f7;
-    --surface: #ffffff;
-    --ink: #17161a;
-    --soft: #5d5a62;
-    --faint: #8d8992;
-    --line: #e9e6e2;
-    --red: #c41e2a;
-    --red-ink: #a3161f;
-    --bar: rgba(250, 249, 247, 0.82);
+    --bg: #0d0b0c; --card: #171314; --ink: #f4f0ee; --soft: #b6adb0; --faint: #7f7679; --line: #2a2426;
+    --red: #e0283a; --red-ink: #ff5a69; --tint: #2a1416;
+    --shadow: 0 0 0 1px var(--line);
+    --claude: linear-gradient(155deg, #4a0c14 0%, #24090c 60%, #120a0c 100%);
+    --hero-glow: rgba(196,30,42,.28);
+    --logo-l: none; --logo-d: block;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0f0d0e;
-      --surface: #181516;
-      --ink: #f3f0ee;
-      --soft: #b5afb1;
-      --faint: #847d80;
-      --line: #2a2527;
-      --red: #ff4050;
-      --red-ink: #ff6a76;
-      --bar: rgba(15, 13, 14, 0.82);
-    }
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font: 400 16px/1.6 Inter, ui-sans-serif, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  a { color: var(--red-ink); text-underline-offset: 3px; }
-  h1, h2, h3 { margin: 0; letter-spacing: -0.02em; }
-  p { margin: 0; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--red-ink); text-underline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
+h2 { font-size: clamp(26px, 3vw, 34px); line-height: 1.15; letter-spacing: -0.025em; font-weight: 700; }
+h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+.ll { display: var(--logo-l); } .ld { display: var(--logo-d); }
 
-  /* Top bar */
-  .bar { position: sticky; top: 0; z-index: 10; background: var(--bar); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
-  .bar .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
-  .bar picture img { display: block; height: 22px; width: auto; }
-  .bar nav { position: relative; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
-  .bar nav::-webkit-scrollbar { display: none; }
-  .bar nav a { color: var(--soft); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 10px; border-radius: 8px; white-space: nowrap; transition: color 150ms ease, background 150ms ease; }
-  .bar nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
-  .bar nav a.on { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+/* Top bar */
+.bar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 24px; height: 60px; }
+.bar img { height: 22px; width: auto; }
+.bar nav { position: relative; margin-left: auto; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { color: var(--soft); text-decoration: none; font-size: 14px; font-weight: 500; padding: 7px 11px; border-radius: 999px; white-space: nowrap; transition: color .15s ease, background .15s ease; }
+.bar nav a:hover, .bar nav a.on { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
 
-  /* Hero */
-  header { padding: 56px 0 48px; }
-  h1 { font-size: clamp(36px, 5.6vw, 56px); line-height: 1.04; font-weight: 700; }
-  .lede { color: var(--soft); font-size: 18px; max-width: 620px; margin-top: 14px; }
-  .doors { display: grid; grid-template-columns: 1fr 1.3fr; gap: 16px; margin-top: 36px; }
-  .door { border-radius: 18px; padding: 24px; background: var(--surface); box-shadow: 0 1px 0 var(--line), 0 10px 30px -20px rgba(0,0,0,.3); }
-  .door .who { font-size: 14px; color: var(--faint); margin-bottom: 6px; }
-  .door h2 { font-size: 22px; margin-bottom: 6px; }
-  .door p { color: var(--soft); }
-  .door .go { display: inline-block; margin-top: 14px; font-weight: 600; }
-  .door.claude { background: var(--ink); color: var(--bg); box-shadow: none; }
-  .door.claude .who, .door.claude p { color: color-mix(in srgb, var(--bg) 68%, transparent); }
-  .paste { margin-top: 16px; background: color-mix(in srgb, var(--bg) 9%, transparent); border-radius: 12px; padding: 14px 14px 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
-  .paste span { flex: 1; font-weight: 500; color: var(--bg); }
-  button.copy { font: 600 14px Inter, sans-serif; border: 0; border-radius: 9px; padding: 8px 14px; cursor: pointer; background: var(--red); color: #fff; flex: none; transition: transform 120ms ease; }
-  button.copy:active { transform: scale(0.97); }
+/* Hero */
+.hero { position: relative; overflow: hidden; padding: 72px 0 64px; }
+.hero::before { content: ""; position: absolute; width: 1000px; height: 700px; right: -260px; top: -360px; background: radial-gradient(closest-side, var(--hero-glow), transparent); pointer-events: none; }
+.hero .wrap { position: relative; }
+h1 { font-size: clamp(40px, 6.2vw, 76px); line-height: 1; letter-spacing: -0.04em; font-weight: 800; max-width: 16ch; }
+h1 span { color: var(--red); }
+.lede { color: var(--soft); font-size: 18px; max-width: 580px; margin-top: 18px; }
+.card.later { background: transparent; box-shadow: 0 0 0 1px var(--line); }
+.summary { margin-top: 28px; padding: 20px 22px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+.summary p { color: var(--soft); } .summary p b { color: var(--ink); }
+.summary ol { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.summary li { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; padding: 10px 12px; border-radius: 12px; background: var(--bg); }
+.summary li span { flex: none; width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; background: var(--tint); color: var(--red-ink); font-size: 13px; font-weight: 700; }
+.doors { display: grid; grid-template-columns: 1fr 1.35fr; gap: 16px; margin-top: 16px; }
+.door { position: relative; border-radius: 20px; padding: 26px; background: var(--card); box-shadow: var(--shadow); }
+.door .who { font-size: 13px; color: var(--faint); font-weight: 500; }
+.door h3 { font-size: 21px; margin: 6px 0 8px; }
+.door p { color: var(--soft); }
+.door .go { display: inline-block; margin-top: 16px; font-weight: 600; }
+.door.claude { background: var(--claude); color: #fff; box-shadow: none; }
+.door.claude .who, .door.claude p { color: rgba(255,255,255,.7); }
+.paste { margin-top: 18px; border-radius: 14px; background: rgba(255,255,255,.08); padding: 14px 14px 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.paste span { flex: 1; font-weight: 500; color: #fff; }
+.copy { font: 600 14px Inter, sans-serif; border: 0; border-radius: 10px; padding: 9px 15px; background: #fff; color: #1a1416; cursor: pointer; flex: none; transition: transform .12s ease; }
+.copy:active { transform: scale(.97); }
+.beam { position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.beam::after { content: ""; position: absolute; width: 110px; aspect-ratio: 1; background: linear-gradient(to left, #ff4050, #e2b54b, transparent); offset-path: rect(0 auto auto 0 round 110px); animation: beam 8s linear infinite; }
+@keyframes beam { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 
-  /* Sections: title on the left, content on the right */
-  section { border-top: 1px solid var(--line); padding: 48px 0; }
-  .sec { display: grid; grid-template-columns: 280px 1fr; gap: 48px; }
-  .sec-head { position: sticky; top: 88px; align-self: start; }
-  .sec-head .num { color: var(--red-ink); font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
-  .sec-head h2 { font-size: 24px; line-height: 1.2; }
-  .sec-head p { color: var(--soft); margin-top: 10px; font-size: 15px; }
+/* Sections */
+section { padding: 72px 0; border-top: 1px solid var(--line); }
+.head { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; margin-bottom: 28px; }
+.head p { color: var(--soft); font-size: 16px; }
+.n { color: var(--red-ink); font-weight: 700; margin-right: 10px; }
+.grid { display: grid; gap: 14px; align-items: start; }
+.g2 { grid-template-columns: repeat(2, 1fr); } .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); }
+.card { border-radius: 18px; padding: 22px; background: var(--card); box-shadow: var(--shadow); }
+.card p { color: var(--soft); font-size: 15px; margin-top: 6px; }
+.card .meta { display: block; font-size: 13px; color: var(--faint); font-weight: 500; margin-top: 2px; }
+.card.lead { background: var(--tint); box-shadow: none; }
+.k { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--tint); color: var(--red-ink); font-weight: 700; font-size: 13px; margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 10px; font-size: 13px; font-weight: 500; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.chip svg { width: 15px; height: 15px; color: var(--red-ink); }
+.note { margin-top: 16px; color: var(--soft); font-size: 15px; }
+.note b { color: var(--ink); }
 
-  /* One row pattern for every list on the page */
-  .rows { border-top: 1px solid var(--line); }
-  .row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-content: start; padding: 16px 0; border-bottom: 1px solid var(--line); }
-  .row b { font-weight: 600; }
-  .row p { color: var(--soft); }
-  .rows.two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; border-top: 0; }
-  .rows.two .row { grid-template-columns: 1fr; gap: 4px; }
-  .rows.two .row:nth-child(-n+2) { border-top: 1px solid var(--line); }
-  .row .n { color: var(--red-ink); font-weight: 600; margin-right: 6px; }
+/* Connections diagram, drawn still */
+.diagram { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; padding: 28px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow); }
+.diagram > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.diagram path { fill: none; stroke: color-mix(in srgb, var(--red) 35%, var(--line)); stroke-width: 1.5; }
+.col { display: grid; gap: 10px; position: relative; z-index: 1; }
+.node { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 14px; background: var(--bg); }
+.node .ic { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--tint); color: var(--red-ink); flex: none; }
+.node .ic svg { width: 17px; height: 17px; }
+.node b { font-weight: 600; font-size: 15px; display: block; line-height: 1.3; } .node small { color: var(--faint); font-size: 13px; }
+.col.right .node { flex-direction: row-reverse; text-align: right; }
+.hub { position: relative; z-index: 1; width: 124px; height: 124px; border-radius: 32px; display: grid; place-items: center; text-align: center; background: var(--claude); color: #fff; }
+.hub b { font-size: 16px; display: block; } .hub small { font-size: 12px; opacity: .7; }
 
-  /* The main work, a little bigger */
-  .work .row { padding: 22px 0; }
-  .work .row b { font-size: 18px; }
-  .work .when { display: block; color: var(--faint); font-size: 14px; margin-top: 4px; font-weight: 500; }
+/* One slow row of libraries */
+.marquee { --gap: 12px; display: flex; gap: var(--gap); overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee .track { display: flex; gap: var(--gap); flex-shrink: 0; animation: mq 60s linear infinite; }
+.marquee:hover .track { animation-play-state: paused; }
+@keyframes mq { to { transform: translateX(calc(-100% - var(--gap))); } }
+.lib { width: 230px; flex: none; padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); }
+.lib b { display: block; font-weight: 600; } .lib span { color: var(--soft); font-size: 14px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.links a { text-decoration: none; color: var(--ink); font-size: 14px; font-weight: 500; padding: 8px 13px; border-radius: 999px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.links a:hover { color: var(--red-ink); }
+.sub { font-weight: 600; margin: 26px 0 10px; }
 
-  .note { margin-top: 20px; color: var(--soft); font-size: 15px; }
-  .note b { color: var(--ink); }
+/* Creators */
+.person { display: flex; gap: 12px; align-items: flex-start; }
+.av { width: 38px; height: 38px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 700; font-size: 14px; color: var(--red-ink); background: var(--tint); }
+.person a { font-weight: 600; text-decoration: none; color: var(--ink); }
+.person a:hover { color: var(--red-ink); }
+.person .h { display: block; color: var(--faint); font-size: 13px; }
+.person p { margin-top: 4px; }
 
-  /* Links shelf */
-  .shelf-label { font-weight: 600; margin: 28px 0 8px; }
-  .shelf-label:first-child { margin-top: 0; }
-  .links { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 32px; }
-  .links a { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); }
-  .links a span { color: var(--faint); font-size: 14px; text-align: right; }
-  .links a:hover b { color: var(--red-ink); }
-  .links a b { font-weight: 500; transition: color 150ms ease; }
+footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--faint); font-size: 14px; }
 
-  footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--faint); font-size: 14px; }
-
-  @media (max-width: 900px) {
-    .sec { grid-template-columns: 1fr; gap: 20px; }
-    .sec-head { position: static; }
-    .doors { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .wrap { padding: 0 16px; }
-    .bar .wrap { gap: 12px; }
-    header { padding-top: 36px; }
-    .row { grid-template-columns: 1fr; gap: 4px; }
-    .rows.two, .links { grid-template-columns: 1fr; }
-    .rows.two .row:nth-child(2) { border-top: 0; }
-    .paste { flex-direction: column; }
-    .links a span { text-align: left; }
-  }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+@media (max-width: 960px) {
+  .doors, .head { grid-template-columns: 1fr; } .head { gap: 10px; }
+  .g3, .g4, .summary ol { grid-template-columns: repeat(2, 1fr); }
+  .diagram { grid-template-columns: 1fr; gap: 14px; } .diagram > svg { display: none; } .hub { margin: 0 auto; order: -1; } .col.right .node { flex-direction: row; text-align: left; }
+}
+@media (max-width: 600px) {
+  .wrap { padding: 0 16px; } .bar .wrap { gap: 12px; }
+  .g2, .g3, .g4, .summary ol { grid-template-columns: 1fr; }
+  .paste { flex-direction: column; }
+  section { padding: 52px 0; } .hero { padding: 44px 0 44px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 
 <div class="bar">
   <div class="wrap">
-    <a href="#top" aria-label="CampusAI starter kit, back to top"><picture><source srcset="assets/campusai-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="assets/campusai-logo.svg" alt="CampusAI" width="93" height="22"></picture></a>
+    <a href="#top" aria-label="Back to top"><img class="ll" src="assets/campusai-logo.svg" alt="CampusAI" width="93" height="22"><img class="ld" src="assets/campusai-logo-white.svg" alt="CampusAI" width="93" height="22"></a>
     <nav aria-label="Sections">
-      <a href="#setup">Set up</a>
-      <a href="#thoughts">Your thoughts</a>
-      <a href="#work">The work</a>
-      <a href="#iterate">Iterating</a>
-      <a href="#evaluate">Evaluating</a>
-      <a href="#connections">Connections</a>
-      <a href="#components">Components</a>
-      <a href="#rules">Rules</a>
+      <a href="#setup">Set up</a><a href="#thoughts">Your thoughts</a><a href="#work">The work</a><a href="#evaluate">Evaluating</a><a href="#connections">Skills</a><a href="#feed">Your feed</a><a href="#rules">Rules</a>
     </nav>
   </div>
 </div>
 
-<header id="top">
+<header class="hero" id="top">
   <div class="wrap">
-    <h1>The CampusAI starter kit</h1>
-    <p class="lede">Everything you need to start doing product at CampusAI. One half is what you learn. The other half is what your Claude gets, so it knows how we work from the first chat.</p>
+    <h1>Start doing product at <span>CampusAI</span></h1>
+    <p class="lede">The starter kit. One half is what you learn. The other half is what your Claude gets, so it knows how we work from the first chat.</p>
+    <div class="summary">
+      <p><b>You don't need to know code.</b> Jacob didn't either, and now builds CampusAI with Claude. The start is the slow part. After a few rounds it gets quick, and there is no pressure on time. The job is four things:</p>
+      <ol>
+        <li><span>1</span>Know the product by using it</li>
+        <li><span>2</span>Get your thoughts across clearly</li>
+        <li><span>3</span>Connect Claude to good tools and parts</li>
+        <li><span>4</span>Keep iterating</li>
+      </ol>
+    </div>
     <div class="doors">
       <div class="door">
         <div class="who">For you</div>
-        <h2>The learning kit</h2>
-        <p>How to get your thoughts across, what the work is, how to iterate and tell whether what Claude made is right, and where the good parts live.</p>
+        <h3>The learning kit</h3>
+        <p>How to get your thoughts across, what the work is, how to iterate and check what Claude made, and where to find good parts, online and in your feed.</p>
         <a class="go" href="#setup">Start reading</a>
       </div>
       <div class="door claude">
+        <div class="beam"></div>
         <div class="who">For your Claude</div>
-        <h2>One line to paste</h2>
-        <p>Open the Claude app, go to the Code tab, choose any folder, and paste this. Claude does the rest and stops when it needs you.</p>
-        <div class="paste">
-          <span id="line">Set me up with the CampusAI starter kit. Read https://campusai-starter.vercel.app/SETUP.md and follow it step by step.</span>
-          <button class="copy" type="button" data-copy="line">Copy</button>
-        </div>
+        <h3>One line to paste</h3>
+        <p>Open the Claude app, go to the Code tab, choose any folder and paste this. Claude does the rest and stops when it needs you.</p>
+        <div class="paste"><span id="line">Set me up with the CampusAI starter kit. Read https://campusai-starter.vercel.app/SETUP.md and follow it step by step.</span><button class="copy" type="button">Copy</button></div>
       </div>
     </div>
   </div>
 </header>
 
 <main>
-
 <section id="setup">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">1</span>
-      <h2>Set up</h2>
-      <p>Six things first, then about 30 minutes with Claude. Make the GitHub account first, then use Continue with GitHub for Vercel and Supabase so one login covers all three.</p>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">1</span>Set up</h2><p>Six things first, then about 30 minutes with Claude. Make the GitHub account first, then use Continue with GitHub for Vercel and Supabase.</p></div>
+    <div class="grid g3">
+      <div class="card"><h3>A Mac</h3><p>On Windows, tell Jacob first.</p></div>
+      <div class="card"><h3>Claude Pro</h3><p>At claude.ai. The free plan runs out too fast for building.</p></div>
+      <div class="card"><h3>The Claude app</h3><p>From <a href="https://claude.com/download">claude.com/download</a>. Claude Code is its Code tab.</p></div>
+      <div class="card"><h3>GitHub</h3><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base.</p></div>
+      <div class="card"><h3>Vercel</h3><p>At <a href="https://vercel.com/signup">vercel.com</a>, free. It puts anything you build on a link.</p></div>
+      <div class="card"><h3>Supabase</h3><p>At <a href="https://supabase.com/dashboard/sign-up">supabase.com</a>, free. A database for when a build saves things.</p></div>
     </div>
-    <div>
-      <div class="rows two">
-        <div class="row"><b>A Mac</b><p>On Windows, tell Jacob first.</p></div>
-        <div class="row"><b>Claude Pro</b><p>At claude.ai. The free plan runs out too fast for building.</p></div>
-        <div class="row"><b>The Claude app</b><p>From <a href="https://claude.com/download">claude.com/download</a>, signed in. Claude Code is its Code tab.</p></div>
-        <div class="row"><b>A GitHub account</b><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base.</p></div>
-        <div class="row"><b>A Vercel account</b><p>At <a href="https://vercel.com/signup">vercel.com</a>, free. It puts anything you build on a link.</p></div>
-        <div class="row"><b>A Supabase account</b><p>At <a href="https://supabase.com/dashboard/sign-up">supabase.com</a>, free. A database for when a build needs to save things.</p></div>
-      </div>
-      <p class="note"><b>Then paste the line at the top into Claude.</b> It installs everything below and keeps it current: each time Claude starts, it picks up whatever Jacob has improved.</p>
-      <div class="rows" style="margin-top:20px">
-        <div class="row"><b>Your copy of CampusAI</b><p>The whole product on sample data, at github.com/jdfeigenblum/campusai-demo-yourname. Jacob makes it and GitHub emails you the invite. It runs on your Mac and on your own live link, and nothing you do touches the real product.</p></div>
-        <div class="row"><b>The CampusAI skill</b><p>Teaches your Claude how we test, grade and build, what Jacob looks for, and the lines that never move.</p></div>
-        <div class="row"><b>Design skills</b><p>Free skills from designers we trust: Emil Kowalski, Jakub Krehel and transitions.dev, plus Anthropic's design plugin.</p></div>
-        <div class="row"><b>Connections</b><p>Eight component libraries, real websites to learn from, Motion's examples, live docs, a way for Claude to look at what it built, Vercel, Supabase and Raylight. More on these below.</p></div>
-      </div>
-    </div>
+    <p class="note"><b>Then paste the line at the top into Claude.</b> You end up with your own copy of CampusAI (github.com/jdfeigenblum/campusai-demo-yourname, on your Mac and on a live link), the CampusAI skill, design skills from people we trust, and the connections below. It keeps itself current every time Claude starts.</p>
   </div>
 </section>
 
 <section id="thoughts">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">2</span>
-      <h2>Getting your thoughts across</h2>
-      <p>The most important part. Claude can build almost anything, but it cannot guess what you meant. What comes back depends mostly on how well you said what you wanted.</p>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">2</span>Getting your thoughts across</h2><p>The most important part. Claude can build almost anything, but it cannot guess what you meant.</p></div>
+    <div class="grid g2">
+      <div class="card lead"><h3>Just say it, with Wispr Flow</h3><p>Wispr Flow (free) turns what you say into clean text. Hold a key and talk it through. Your whole thought process comes across without worrying about every word.</p></div>
+      <div class="card lead">
+        <div class="chips" aria-hidden="true">
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>screenshot.png</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>a link</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>a component</span>
+        </div>
+        <h3>Show it</h3><p>Claude mostly reads code. It cannot see the page the way you do, so show it what you mean.</p>
+      </div>
     </div>
-    <div class="rows">
-      <div class="row"><b>Just say it, with Wispr Flow</b><p>Wispr Flow (free) turns what you say into clean text in any app. Hold a key and talk it through. You get your whole thought process across without worrying about every word, and Claude reads the intent. This is how Jacob works.</p></div>
-      <div class="row"><b>Say who and why</b><p>"A freshman with no resume opens Job Match and has no idea where to start" gets a far better result than "make Job Match better". Start with the student and the moment they are in.</p></div>
-      <div class="row"><b>Show it</b><p>Claude mostly reads code. It does not see the page the way you do, so show it: a screenshot of what looks wrong, a link to something you like, a component you want. "Like this, but for our Events page" beats a paragraph.</p></div>
-      <div class="row"><b>Say what you are reacting to</b><p>Not just "I don't like it". Say why: "three things fight for attention, so I don't know where to look first". That is what Claude can fix.</p></div>
-      <div class="row"><b>Say how sure you are</b><p>"Make this cleaner" is direction, and Claude comes back with options. "Specifically, make the button red" is exact, and it does just that. "Just go" means build it without checking in first.</p></div>
-      <div class="row"><b>Start small</b><p>Begin with one small change and see how Claude handles it. Once you know how it works, you can ask for more at once.</p></div>
+    <div class="grid g4" style="margin-top:14px">
+      <div class="card"><h3>Say who and why</h3><p>"A freshman with no resume opens Job Match and does not know where to start" beats "make Job Match better".</p></div>
+      <div class="card"><h3>Say what you react to</h3><p>Not "I don't like it", but why: "three things fight for attention".</p></div>
+      <div class="card"><h3>Say how sure you are</h3><p>"Make it cleaner" gets options. "Specifically, make it red" gets exactly that.</p></div>
+      <div class="card"><h3>Start small</h3><p>Begin with one small change and see how Claude handles it. Once you know, ask for more at once.</p></div>
     </div>
   </div>
 </section>
 
 <section id="work">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">3</span>
-      <h2>The work</h2>
-      <p>Testing comes first, because it trains the core skill: noticing when something is wrong for a student and saying exactly what. Jacob will walk you through Base, where all of this lives.</p>
-    </div>
-    <div class="rows work">
-      <div class="row">
-        <div><b>Testing</b><span class="when">Whenever a test run arrives</span></div>
-        <p>When the team ships something, a test run shows up in Base with your name on it. Go through it one feature at a time and answer Works, Something's off, or Can't test this, then give it a 1 to 10. Be a specific student, not yourself: a freshman with no resume, or someone on a phone between classes. Look at what a page shows before you have saved anything, try to break it, and talk out loud as you go. Anything you notice outside a run goes through the Feedback button in CampusAI. Your fresh eyes are the most useful thing you have, and they fade in about a week.</p>
-      </div>
-      <div class="row">
-        <div><b>Grading</b><span class="when">Every Thursday</span></div>
-        <p>Twice a week a routine finds new components and puts each on a card at <a href="https://elevations.vercel.app">elevations.vercel.app</a>. Score each one 1 to 10, with one sentence on why and where in CampusAI it would go. Jacob's score stays hidden until you give yours.</p>
-      </div>
-      <div class="row">
-        <div><b>Building</b><span class="when">Your own time</span></div>
-        <p>Find something you like, pick one place in CampusAI it would make better, and say it in one sentence: "The Save button on Job Match should fill like this." Open Claude in your copy, paste the link and the sentence, and say add a component.</p>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">3</span>The work, and how it goes</h2><p>Testing comes first, because it trains the core skill: noticing when something is wrong for a student. Jacob will walk you through Base, where it all lives.</p></div>
+    <div class="card lead know">
+      <h3>Start by knowing the product</h3>
+      <p>Before you build anything, go through all of CampusAI in <a href="https://campusai-demo.vercel.app">the demo</a>. Press everything, try to break it, and learn what each part is for. You cannot make something better that you do not understand.</p>
+      <div class="chips" style="margin:14px 0 0">
+        <span class="chip">Briefing</span><span class="chip">Calendar</span><span class="chip">Job Match, built around your North Star</span><span class="chip">Resume</span><span class="chip">Academic planner</span><span class="chip">Class Tracker</span><span class="chip">Organizations and Events</span><span class="chip">Dining</span>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="iterate">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">4</span>
-      <h2>Iterating</h2>
-      <p>Nothing good comes out right the first time. The first version is a draft, and good work usually takes several rounds. Every piece of work goes through this loop.</p>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="card"><h3>Testing</h3><span class="meta">Whenever a test run arrives</span><p>A run shows up in Base with your name on it. Go one feature at a time: Works, Something's off, or Can't test this, then a 1 to 10. Be a specific student, check what a page shows before anything is saved, try to break it. Fresh eyes fade in about a week.</p></div>
+      <div class="card"><h3>Grading</h3><span class="meta">Every Thursday</span><p>New components land as cards at <a href="https://elevations.vercel.app">elevations.vercel.app</a>. Score each 1 to 10, with one sentence on why and where in CampusAI it would go.</p></div>
+      <div class="card"><h3>Building</h3><span class="meta">Your own time</span><p>Pick one thing and one place: "The Save button on Job Match should fill like this." Paste the link and the sentence into Claude in your copy and say add a component.</p></div>
     </div>
-    <div class="rows">
-      <div class="row"><b><span class="n">1</span>Say it</b><p>Who it is for, what is wrong for them, and what you want instead. Start small.</p></div>
-      <div class="row"><b><span class="n">2</span>See options first</b><p>Ask Claude to find two or three ways others already solved it. Borrow before you build.</p></div>
-      <div class="row"><b><span class="n">3</span>Pick one</b><p>Choose the option, or the best parts of two. That call is yours, not Claude's.</p></div>
-      <div class="row"><b><span class="n">4</span>Claude builds it</b><p>In your copy of CampusAI, with the real colours, fonts and components.</p></div>
-      <div class="row"><b><span class="n">5</span>Look and evaluate</b><p>Say what you expect, then press it, on a phone width too. Run the checks in the next section.</p></div>
-      <div class="row"><b><span class="n">6</span>Go again, then ship</b><p>Say exactly what is off and repeat. When it is right, put it on your link and send Jacob the link and your one sentence.</p></div>
+    <div class="sub">Every piece of work goes round this loop</div>
+    <div class="grid g3">
+      <div class="card"><span class="k">1</span><h3>Say it, then see options</h3><p>Who it is for and what is wrong. Ask Claude for two or three ways others solved it.</p></div>
+      <div class="card"><span class="k">2</span><h3>Pick, and let Claude build</h3><p>The pick is yours. Claude builds it in your copy with the real colours and parts.</p></div>
+      <div class="card"><span class="k">3</span><h3>Look, then go again</h3><p>Say what you expect, press it, say what is off. When it is right, put it on your link and send Jacob.</p></div>
+    </div>
+    <div class="card later" style="margin-top:14px">
+      <h3>In a few weeks: into the real product</h3>
+      <p>Your work goes into the real CampusAI as a pull request (a PR) on GitHub. Claude drafts it and the engineering team reviews it. Every PR says three things: what the backend has to save, anything you removed, and what each button should do.</p>
     </div>
   </div>
 </section>
 
 <section id="evaluate">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">5</span>
-      <h2>Evaluating the output</h2>
-      <p>Always be looking, evaluating, iterating. Claude sounds just as sure when it is wrong as when it is right, so look at what it built and decide whether it is actually right. Each check is here because skipping it already cost us something.</p>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">4</span>Evaluating the output</h2><p>Always be looking, evaluating, iterating. Claude sounds just as sure when it is wrong, so say what you expect before you look, then check.</p></div>
+    <div class="grid g4">
+      <div class="card"><span class="k">1</span><h3>"Done" is a claim</h3><p>Open the link and press the thing yourself.</p></div>
+      <div class="card"><span class="k">2</span><h3>Look for what disappeared</h3><p>A change can quietly remove something.</p></div>
+      <div class="card"><span class="k">3</span><h3>Saved is not used</h3><p>Check the thing that should have changed.</p></div>
+      <div class="card"><span class="k">4</span><h3>Your link may only work for you</h3><p>Open it in a private window first.</p></div>
+      <div class="card"><span class="k">5</span><h3>Perfect data hides problems</h3><p>Long names, empty accounts, a phone.</p></div>
+      <div class="card"><span class="k">6</span><h3>Words match the screen</h3><p>Read every label as the student would.</p></div>
+      <div class="card"><span class="k">7</span><h3>Check any "it says so"</h3><p>Go look at the thing it points to.</p></div>
+      <div class="card"><span class="k">8</span><h3>Then go again</h3><p>Finding something off is the job.</p></div>
     </div>
-    <div>
-      <p class="note" style="margin:0 0 20px"><b>The habit that makes it easy: say what you expect before you look.</b> "When I press Add, the event should show up in Your week." Then press it and compare. Without an expectation, whatever appears looks fine.</p>
-      <div class="rows two">
-        <div class="row"><b><span class="n">1</span>"Done" is a claim</b><p>Open the link and press the thing yourself. Never pass along "it works" that you did not see.</p></div>
-        <div class="row"><b><span class="n">2</span>Look for what disappeared</b><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
-        <div class="row"><b><span class="n">3</span>Saved is not used</b><p>A button said Saved while the job feed never moved, because nothing read what it saved.</p></div>
-        <div class="row"><b><span class="n">4</span>Your link may only work for you</b><p>It opens because you are logged in. Open it in a private window before sending it.</p></div>
-        <div class="row"><b><span class="n">5</span>Perfect data hides problems</b><p>Try a long name, an empty account, a phone width, the back button, pressing twice.</p></div>
-        <div class="row"><b><span class="n">6</span>Words must match the screen</b><p>We once shipped "Roles matching zzzzz" over finance roles. Read every label as the student.</p></div>
-        <div class="row"><b><span class="n">7</span>Check any "it says so"</b><p>We called a waitlist live because a code comment said so. It had been deleted months earlier.</p></div>
-        <div class="row"><b><span class="n">8</span>Then go again</b><p>Finding something off is the job, not a failure. Say exactly what is wrong, and look again.</p></div>
-      </div>
-      <div class="rows two" style="margin-top:28px">
-        <div class="row"><b>What to ask Claude</b><p>"What did you change, what did you remove, and what did you not check?" "Show me it at phone width, and in dark mode." "What exactly did you click to confirm it works?" "If this was wrong, how would we know?"</p></div>
-        <div class="row"><b>How to report it</b><p>Say which checks you ran and which you did not. "I checked it on a phone and in a private window, I did not try an empty account" is a good report. "Done" is not.</p></div>
-      </div>
-    </div>
+    <p class="note"><b>Ask Claude:</b> "What did you change, what did you remove, and what did you not check?" <b>Report to Jacob</b> which checks you ran and which you did not. "Done" is not a report.</p>
   </div>
 </section>
 
 <section id="connections">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">6</span>
-      <h2>How the connections work</h2>
-      <p>A connection (people call them MCPs) is a plug that lets Claude use another tool directly. Without one, Claude only knows what it remembers. With one, it can look something up or do something for you, live.</p>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">5</span>Skills, connections and components</h2><p>Claude is the tool. What makes it better is what you connect to it, and the more you give it, the smarter it gets.</p></div>
+    <div class="grid g2" style="margin-bottom:14px">
+      <div class="card"><h3>Skills</h3><p>A skill is an exact set of instructions for how to do something: first this, then that, using these parts. People post them on GitHub for everything from motion to graphics. Your setup installs the ones we use, and you can add more by sending Claude a link.</p></div>
+      <div class="card"><h3>Connections</h3><p>A connection (an MCP) lets Claude use another tool directly. You never call one. You just ask, and Claude picks the right one. Type /mcp in a chat to see yours.</p></div>
     </div>
-    <div class="rows">
-      <div class="row"><b>You just ask</b><p>You never call a connection yourself. Say what you want in plain words, like "search the component libraries for a button that fills while you hold it" or "put this on my Vercel", and Claude picks the right one.</p></div>
-      <div class="row"><b>What yours can do</b><p>Search eight component libraries and pull the real code. Look at real websites and Motion's examples. Read up-to-date docs and explain any GitHub repo. Open what it built and check it at phone width. Deploy to Vercel, use Supabase, and drive Raylight for short product videos.</p></div>
-      <div class="row"><b>Seeing and signing in</b><p>Type /mcp in a chat to see every connection and whether it works. Vercel, Supabase and Raylight ask you to sign in in your browser the first time Claude uses them.</p></div>
+    <div class="diagram" id="diagram">
+      <svg aria-hidden="true"><g id="paths"></g></svg>
+      <div class="col left">
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><div><b>Components</b><small>Eight libraries, real code</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><div><b>Inspo</b><small>Real websites to learn from</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19c4-10 12-10 16 0"/><circle cx="12" cy="7" r="3"/></svg></span><div><b>Motion</b><small>Animation examples</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6"/></svg></span><div><b>Docs and repos</b><small>Up to date, explained</small></div></div>
+      </div>
+      <div class="hub" id="hub"><div><b>Your Claude</b><small>you just ask</small></div></div>
+      <div class="col right">
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/></svg></span><div><b>Look at it</b><small>Screenshots, phone width</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l10 18H2z"/></svg></span><div><b>Vercel</b><small>Your build on a link</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/></svg></span><div><b>Supabase</b><small>A database when you need one</small></div></div>
+        <div class="node" data-n><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7 4 20 12 7 20"/></svg></span><div><b>Raylight</b><small>Short product videos</small></div></div>
+      </div>
+    </div>
+    <div class="sub">The eight libraries your Claude can search. Ask, or open them yourself</div>
+    <div class="marquee" data-mq>
+      <div class="track">
+        <a class="lib" href="https://magicui.design"><b>Magic UI</b><span>Lists, borders, docks</span></a>
+        <a class="lib" href="https://reactbits.dev"><b>React Bits</b><span>Animated text and effects</span></a>
+        <a class="lib" href="https://motion-primitives.com"><b>Motion Primitives</b><span>Small, clean motion</span></a>
+        <a class="lib" href="https://animate-ui.com"><b>Animate UI</b><span>Everyday parts, animated</span></a>
+        <a class="lib" href="https://smoothui.dev"><b>SmoothUI</b><span>Polished interactions</span></a>
+        <a class="lib" href="https://beui.dev"><b>beUI</b><span>Schedulers, calendars</span></a>
+        <a class="lib" href="https://www.prompt-kit.com"><b>prompt-kit</b><span>Chat and AI pieces</span></a>
+        <a class="lib" href="https://www.cult-ui.com"><b>Cult UI</b><span>Polished, unusual parts</span></a>
+      </div>
+    </div>
+    <div class="links">
+      <a href="https://elevations.vercel.app">Elevations, ours</a><a href="https://parts-catalogue.vercel.app">Parts catalogue, ours</a><a href="https://library-mu-murex.vercel.app">Design Library, ours</a><a href="https://campusai-demo.vercel.app">The demo</a><a href="https://21st.dev">21st.dev</a><a href="https://ui.aceternity.com">Aceternity</a><a href="https://transitions.dev">transitions.dev</a><a href="https://mobbin.com">Mobbin</a><a href="https://godly.website">Godly</a><a href="https://motionsites.ai">Motionsites</a>
     </div>
   </div>
 </section>
 
-<section id="components">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">7</span>
-      <h2>Components and where to look</h2>
-      <p>Borrow before you build. Someone has almost always made the thing already, and a part used by thousands of people beats one written once in a chat.</p>
+<section id="feed">
+  <div class="wrap">
+    <div class="head"><h2><span class="n">6</span>Get it from your feed</h2><p>Most of the good things we have added came from a person, not a search. Follow these people and your X and Instagram turn into a stream of components and ideas.</p></div>
+    <div class="grid g3">
+      <div class="card person"><span class="av">EK</span><div><a href="https://x.com/emilkowalski_">Emil Kowalski</a><span class="h">X @emilkowalski_</span><p>How motion should feel. Made Sonner and Vaul, and wrote skills your Claude already has.</p></div></div>
+      <div class="card person"><span class="av">JA</span><div><a href="https://x.com/Jakubantalik">Jakub Antalík</a><span class="h">X @Jakubantalik</span><p>Clean transitions and AI effects, from transitions.dev and libraries.dev.</p></div></div>
+      <div class="card person"><span class="av">RF</span><div><a href="https://x.com/raunofreiberg">Rauno Freiberg</a><span class="h">X @raunofreiberg</span><p>Interface craft. His interface guidelines are worth reading once.</p></div></div>
+      <div class="card person"><span class="av">CC</span><div><a href="https://www.instagram.com/_code_and_chill_/">Code and Chill</a><span class="h">Instagram @_code_and_chill_</span><p>Product dashboards with real motion, with the code shown in the reel.</p></div></div>
+      <div class="card person"><span class="av">OS</span><div><a href="https://www.instagram.com/orbixdashboard/">Orbix Studio</a><span class="h">Instagram @orbixdashboard</span><p>Dashboards where every card answers one question.</p></div></div>
+      <div class="card person"><span class="av">KD</span><div><a href="https://www.instagram.com/kail.designs/">Kailash</a><span class="h">Instagram @kail.designs</span><p>Backgrounds, icons and gradient effects.</p></div></div>
+      <div class="card person"><span class="av">VO</span><div><a href="https://x.com/viktoroddy">Viktor Oddy</a><span class="h">X @viktoroddy</span><p>Cinematic hero sections, collected at motionsites.ai.</p></div></div>
+      <div class="card person"><span class="av">NE</span><div><a href="https://x.com/neropursue">Nero</a><span class="h">X @neropursue</span><p>Posts lists of new component libraries and design sites.</p></div></div>
+      <div class="card person"><span class="av">HH</span><div><a href="https://x.com/himanshubuildss">Himanshu Hingorani</a><span class="h">X @himanshubuildss</span><p>Lists of free building resources. Usually one real find per post.</p></div></div>
     </div>
-    <div>
-      <div class="shelf-label">Ours first</div>
-      <div class="links">
-        <a href="https://elevations.vercel.app"><b>Elevations</b><span>Rebuilt for CampusAI, graded by the team</span></a>
-        <a href="https://campusai-demo.vercel.app"><b>The demo</b><span>The real product on sample data</span></a>
-        <a href="https://parts-catalogue.vercel.app"><b>Parts catalogue</b><span>Every part on our shelf, with previews</span></a>
-        <a href="https://library-mu-murex.vercel.app"><b>Design Library</b><span>Inspiration, and every source we use</span></a>
-      </div>
-      <div class="shelf-label">Connected to your Claude, so just ask it to search them</div>
-      <div class="links">
-        <a href="https://magicui.design"><b>Magic UI</b><span>Lists, borders, docks, marquees</span></a>
-        <a href="https://reactbits.dev"><b>React Bits</b><span>Animated text, backgrounds, effects</span></a>
-        <a href="https://motion-primitives.com"><b>Motion Primitives</b><span>Small, clean motion pieces</span></a>
-        <a href="https://animate-ui.com"><b>Animate UI</b><span>Everyday parts, animated</span></a>
-        <a href="https://smoothui.dev"><b>SmoothUI</b><span>Polished interactions, AI pieces</span></a>
-        <a href="https://beui.dev"><b>beUI</b><span>Schedulers, calendars, citations</span></a>
-        <a href="https://www.prompt-kit.com"><b>prompt-kit</b><span>Chat and AI interface pieces</span></a>
-        <a href="https://www.cult-ui.com"><b>Cult UI</b><span>Polished, unusual components</span></a>
-      </div>
-      <div class="shelf-label">For ideas</div>
-      <div class="links">
-        <a href="https://mobbin.com"><b>Mobbin</b><span>How real apps solve the same screen</span></a>
-        <a href="https://godly.website"><b>Godly</b><span>Websites with great motion</span></a>
-        <a href="https://www.awwwards.com"><b>Awwwards</b><span>The best websites right now</span></a>
-        <a href="https://21st.dev"><b>21st.dev</b><span>A big community library</span></a>
-      </div>
-    </div>
+    <p class="note"><b>When a post stops you scrolling, save it and paste the link into Claude:</b> "What makes this good, what library is it from, and where in CampusAI would it help a student?" Most posts name the library or link the code, and Claude can go get it. Send Jacob the good ones.</p>
   </div>
 </section>
 
 <section id="rules">
-  <div class="wrap sec">
-    <div class="sec-head">
-      <span class="num">8</span>
-      <h2>Rules, and what to say first</h2>
-      <p>Four rules that never move, and a few things to try once you are set up.</p>
-    </div>
-    <div class="rows two">
-      <div class="row"><b>Push only to your own copy</b><p>Your copy of the demo is yours. Nothing else.</p></div>
-      <div class="row"><b>"I'm testing the calendar. Help me go through it like a freshman would."</b></div>
-      <div class="row"><b>Deploy only to your own Vercel</b><p>Never anyone else's account.</p></div>
-      <div class="row"><b>"Here's my voice memo. Turn it into feedback I can send."</b></div>
-      <div class="row"><b>No real student information</b><p>Not in a prompt, a file or a build. Make up a sample student.</p></div>
-      <div class="row"><b>"Find three ways other apps do a filter bar, then build the best one in our style."</b></div>
-      <div class="row"><b>Jacob sees it first</b><p>Nothing goes into the real product, gets posted, or reaches students before he does.</p></div>
-      <div class="row"><b>"Is this good? Check it against our hard lines."</b></div>
+  <div class="wrap">
+    <div class="head"><h2><span class="n">7</span>Four rules</h2><p>These never move.</p></div>
+    <div class="grid g4">
+      <div class="card"><h3>Your own copy only</h3><p>Push only to your copy of the demo.</p></div>
+      <div class="card"><h3>Your own Vercel only</h3><p>Never deploy to anyone else's.</p></div>
+      <div class="card"><h3>No real student data</h3><p>Not in a prompt, a file or a build.</p></div>
+      <div class="card"><h3>Jacob sees it first</h3><p>Nothing goes into the product, gets posted, or reaches students before he does.</p></div>
     </div>
   </div>
 </section>
 </main>
 
-<footer>
-  <div class="wrap">The kit keeps itself current: your Claude pulls the latest each time it starts. Source on <a href="https://github.com/CampusAI-app/campusai-starter">GitHub</a>. Stuck? Message Jacob.</div>
-</footer>
+<footer><div class="wrap">The kit keeps itself current: your Claude pulls the latest each time it starts. Source on <a href="https://github.com/CampusAI-app/campusai-starter">GitHub</a>. Stuck? Message Jacob.</div></footer>
 
 <script>
-  document.querySelectorAll('button.copy').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var text = document.getElementById(b.dataset.copy).textContent;
-      if (!navigator.clipboard) return;
-      navigator.clipboard.writeText(text).then(function () {
-        b.textContent = 'Copied';
-        setTimeout(function () { b.textContent = 'Copy'; }, 1600);
-      }, function () {});
-    });
+  document.querySelector('.copy').addEventListener('click', function (e) {
+    var b = e.currentTarget;
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(document.getElementById('line').textContent).then(function () {
+      b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600);
+    }, function () {});
   });
-  // Mark the section you are reading in the top bar.
+
+  // One slow row: repeat the track so it loops without a gap.
+  document.querySelectorAll('[data-mq]').forEach(function (m) {
+    var t = m.querySelector('.track');
+    for (var i = 0; i < 2; i++) m.appendChild(t.cloneNode(true)).setAttribute('aria-hidden', 'true');
+  });
+
+  // Still lines from each connection to Claude.
+  function drawLines() {
+    var d = document.getElementById('diagram'), g = document.getElementById('paths'), hub = document.getElementById('hub');
+    if (getComputedStyle(d.querySelector(':scope > svg')).display === 'none') return;
+    var R = d.getBoundingClientRect(), H = hub.getBoundingClientRect(), hy = H.top - R.top + H.height / 2, out = '';
+    d.querySelectorAll('[data-n]').forEach(function (n) {
+      var N = n.getBoundingClientRect(), left = N.left < H.left;
+      var x = left ? N.right - R.left : N.left - R.left, y = N.top - R.top + N.height / 2;
+      var tx = left ? H.left - R.left : H.right - R.left, mx = (x + tx) / 2;
+      out += '<path d="M' + x + ',' + y + ' C' + mx + ',' + y + ' ' + mx + ',' + hy + ' ' + tx + ',' + hy + '"/>';
+    });
+    g.innerHTML = out;
+  }
+  addEventListener('load', drawLines);
+  addEventListener('resize', drawLines);
+
+  // Mark the section you are reading. This slides only the bar, never the page.
   var links = {};
   document.querySelectorAll('.bar nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
   if ('IntersectionObserver' in window) {
@@ -382,13 +385,9 @@
       entries.forEach(function (e) {
         if (!e.isIntersecting || !links[e.target.id]) return;
         Object.values(links).forEach(function (a) { a.classList.remove('on'); });
-        links[e.target.id].classList.add('on');
-        // Slide the bar sideways so the marked link stays visible on a phone. This moves only the
-        // bar, never the page: scrollIntoView here cancelled the page's own scroll mid-way.
         var a = links[e.target.id], nav = a.parentElement;
-        if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth) {
-          nav.scrollLeft = a.offsetLeft - 16;
-        }
+        a.classList.add('on');
+        if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth) nav.scrollLeft = a.offsetLeft - 16;
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     document.querySelectorAll('main section').forEach(function (s) { io.observe(s); });
