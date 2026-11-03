@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CampusAI starter kit</title>
 <meta name="description" content="Everything you need to start doing product at CampusAI: what you learn, and what your Claude gets.">
+<link rel="icon" href="assets/campusai-spark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -49,7 +50,7 @@
   .bar { position: sticky; top: 0; z-index: 10; background: var(--bar); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
   .bar .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
   .bar picture img { display: block; height: 22px; width: auto; }
-  .bar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
+  .bar nav { position: relative; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
   .bar nav::-webkit-scrollbar { display: none; }
   .bar nav a { color: var(--soft); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 10px; border-radius: 8px; white-space: nowrap; transition: color 150ms ease, background 150ms ease; }
   .bar nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
@@ -382,7 +383,12 @@
         if (!e.isIntersecting || !links[e.target.id]) return;
         Object.values(links).forEach(function (a) { a.classList.remove('on'); });
         links[e.target.id].classList.add('on');
-        links[e.target.id].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        // Slide the bar sideways so the marked link stays visible on a phone. This moves only the
+        // bar, never the page: scrollIntoView here cancelled the page's own scroll mid-way.
+        var a = links[e.target.id], nav = a.parentElement;
+        if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth) {
+          nav.scrollLeft = a.offsetLeft - 16;
+        }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     document.querySelectorAll('main section').forEach(function (s) { io.observe(s); });
