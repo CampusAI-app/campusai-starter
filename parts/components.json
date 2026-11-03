@@ -1,0 +1,29 @@
+{
+ "$schema": "https://ui.shadcn.com/schema.json",
+ "style": "new-york",
+ "rsc": false,
+ "tsx": true,
+ "tailwind": {
+  "config": "",
+  "css": "src/index.css",
+  "baseColor": "neutral",
+  "cssVariables": true
+ },
+ "aliases": {
+  "components": "@/components",
+  "utils": "@/lib/utils",
+  "ui": "@/components/ui",
+  "lib": "@/lib",
+  "hooks": "@/hooks"
+ },
+ "registries": {
+  "@magicui": "https://magicui.design/r/{name}",
+  "@react-bits": "https://reactbits.dev/r/{name}.json",
+  "@motion-primitives": "https://motion-primitives.com/c/{name}.json",
+  "@animate-ui": "https://animate-ui.com/r/{name}.json",
+  "@smoothui": "https://smoothui.dev/r/{name}.json",
+  "@beui": "https://beui.dev/r/{name}.json",
+  "@prompt-kit": "https://www.prompt-kit.com/c/{name}.json",
+  "@cult-ui": "https://cult-ui.com/r/{name}.json"
+ }
+}

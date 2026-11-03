@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusAI starter kit</title>
+<meta name="description" content="Everything you need to start doing product at CampusAI: what you learn, and what your Claude gets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --ink: #17161a;
+    --soft: #5d5a62;
+    --faint: #8d8992;
+    --line: #e9e6e2;
+    --red: #c41e2a;
+    --red-ink: #a3161f;
+    --red-wash: #fbeeee;
+    --gold: #c99a2e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0d0e;
+      --surface: #181516;
+      --ink: #f3f0ee;
+      --soft: #b5afb1;
+      --faint: #847d80;
+      --line: #2a2527;
+      --red: #ff4050;
+      --red-ink: #ff6a76;
+      --red-wash: #2a1416;
+      --gold: #e2b54b;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 400 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--red-ink); text-underline-offset: 3px; }
+  h1, h2, h3 { margin: 0; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.02; font-weight: 700; }
+  h2 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+  h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+  p { margin: 0; }
+  .lede { color: var(--soft); font-size: 18px; max-width: 640px; margin-top: 14px; }
+  .sub { color: var(--soft); margin-bottom: 20px; max-width: 720px; }
+
+  header { padding: 64px 0 32px; position: relative; overflow: hidden; }
+  header::before {
+    content: ""; position: absolute; inset: -40% -10% auto auto; width: 720px; height: 720px;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 16%, transparent), transparent);
+    pointer-events: none;
+  }
+  .mark { display: block; margin-bottom: 28px; }
+  .mark img { display: block; height: 32px; width: auto; }
+
+  .doors { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; margin-top: 36px; position: relative; }
+  .door { background: var(--surface); border-radius: 18px; padding: 24px; box-shadow: 0 1px 0 var(--line), 0 10px 30px -18px rgba(0,0,0,.25); }
+  .door .who { font-size: 14px; color: var(--faint); margin-bottom: 8px; }
+  .door p { color: var(--soft); }
+  .door.claude { background: var(--ink); color: var(--bg); }
+  .door.claude .who, .door.claude p { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+  .paste {
+    margin-top: 16px; background: color-mix(in srgb, var(--bg) 9%, transparent); border-radius: 12px;
+    padding: 14px 14px 14px 16px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .paste span { flex: 1; font-weight: 500; color: var(--bg); }
+  button.copy {
+    font: 600 14px Inter, sans-serif; border: 0; border-radius: 9px; padding: 8px 14px; cursor: pointer;
+    background: var(--red); color: #fff; flex: none; transition: transform 120ms ease, background 160ms ease;
+  }
+  button.copy:active { transform: scale(0.97); }
+  button.copy.done { background: #2f2a2c; }
+  .door .go { display: inline-block; margin-top: 16px; font-weight: 600; }
+
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  .grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .tile { background: var(--surface); border-radius: 14px; padding: 18px; box-shadow: 0 1px 0 var(--line); }
+  .tile p { color: var(--soft); font-size: 15px; }
+  .n { color: var(--red-ink); font-weight: 700; font-size: 14px; margin-bottom: 6px; display: block; }
+
+  .steps { counter-reset: s; }
+  .steps .tile h3::before { counter-increment: s; content: counter(s) ". "; color: var(--red-ink); }
+
+  .habit { padding: 22px; }
+  .habit h3 { font-size: 20px; margin-bottom: 8px; }
+  .habit .when { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--red-ink); background: var(--red-wash); border-radius: 999px; padding: 4px 10px; }
+
+  .eval-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: end; margin-bottom: 20px; }
+  .expect { background: var(--red-wash); border-radius: 14px; padding: 18px; }
+  .expect b { color: var(--red-ink); }
+  .ask { margin-top: 12px; }
+  .ask li { margin: 6px 0; color: var(--soft); }
+  .ask li b { color: var(--ink); font-weight: 500; }
+
+  .shelf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .lib { background: var(--surface); border-radius: 12px; padding: 14px 16px; box-shadow: 0 1px 0 var(--line); text-decoration: none; color: inherit; transition: transform 180ms ease, box-shadow 180ms ease; }
+  @media (hover: hover) { .lib:hover { transform: translateY(-2px); box-shadow: 0 1px 0 var(--line), 0 12px 24px -16px rgba(0,0,0,.35); } }
+  .lib b { display: block; font-weight: 600; }
+  .lib span { color: var(--soft); font-size: 14px; }
+  .label { font-size: 15px; font-weight: 600; margin: 22px 0 10px; color: var(--soft); }
+
+  ul.plain { list-style: none; padding: 0; margin: 0; }
+  .rules li { padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 500; }
+  .rules li:last-child { border-bottom: 0; }
+
+  footer { padding: 32px 0 56px; color: var(--faint); font-size: 14px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .doors, .eval-head { grid-template-columns: 1fr; }
+    .g4, .shelf { grid-template-columns: repeat(2, 1fr); }
+    .g3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    header { padding-top: 40px; }
+    .g2, .g4, .shelf { grid-template-columns: 1fr; }
+    .paste { flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <picture class="mark"><source srcset="assets/campusai-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="assets/campusai-logo.svg" alt="CampusAI" width="134" height="32"></picture>
+    <h1>The CampusAI<br>starter kit</h1>
+    <p class="lede">Everything you need to start doing product at CampusAI. One half is what you learn. The other half is what your Claude gets, so it knows how we work from the first chat.</p>
+
+    <div class="doors">
+      <div class="door">
+        <div class="who">For you</div>
+        <h2>The learning kit</h2>
+        <p>What we do, the three habits the work runs on, how to tell whether what Claude made is actually right, and where the good parts live.</p>
+        <a class="go" href="#start">Start reading</a>
+      </div>
+      <div class="door claude">
+        <div class="who">For your Claude</div>
+        <h2>One line to paste</h2>
+        <p>Open the Claude app, go to the Code tab, choose any folder, and paste this. Claude does the rest and stops when it needs you.</p>
+        <div class="paste">
+          <span id="line">Set me up with the CampusAI starter kit. Read https://campusai-starter.vercel.app/SETUP.md and follow it step by step.</span>
+          <button class="copy" type="button" data-copy="line">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="start">
+  <div class="wrap">
+    <h2>Before you start</h2>
+    <p class="sub">Four things, then about 30 minutes with Claude.</p>
+    <div class="grid g4">
+      <div class="tile"><h3>A Mac</h3><p>On Windows, tell Jacob first.</p></div>
+      <div class="tile"><h3>Claude Pro</h3><p>At claude.ai. The free plan runs out too fast for building.</p></div>
+      <div class="tile"><h3>The Claude app</h3><p>From <a href="https://claude.com/download">claude.com/download</a>, signed in. Claude Code is its Code tab.</p></div>
+      <div class="tile"><h3>A GitHub account</h3><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base, then wait for his two invites.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What you end up with</h2>
+    <p class="sub">The same tools and shelves the team uses, cut down to the best ones. It all updates itself when Jacob improves the kit.</p>
+    <div class="grid g3">
+      <div class="tile"><span class="n">Claude Code</span><p>Where the work happens. The same Claude, but it can work with files on your Mac, run things and put them online.</p></div>
+      <div class="tile"><span class="n">The CampusAI skill</span><p>Teaches your Claude how we test, grade and build, what Jacob looks for, and the lines that never move.</p></div>
+      <div class="tile"><span class="n">Design skills</span><p>Free skills from designers we trust: Emil Kowalski, Jakub Krehel, transitions.dev, plus Anthropic's design plugin.</p></div>
+      <div class="tile"><span class="n">Eight component libraries</span><p>About 3,000 parts, connected so Claude can search them and pull the real code instead of writing from scratch.</p></div>
+      <div class="tile"><span class="n">More connections</span><p>Real websites to learn from, Motion's examples, live docs, any GitHub repo explained, and a way for Claude to look at what it built.</p></div>
+      <div class="tile"><span class="n">Raylight</span><p>Motion design in the browser for short product videos. Claude drives it for you.</p></div>
+      <div class="tile"><span class="n">Your copy of CampusAI</span><p>The whole product on sample data, on your Mac and on your own live link. Change anything. Nothing touches the real product.</p></div>
+      <div class="tile"><span class="n">GitHub, Vercel, Supabase</span><p>Where code lives, how anything you build gets a link, and a database for when a build needs to save things.</p></div>
+      <div class="tile"><span class="n">Base and Elevations</span><p>Your tasks, test runs and updates, and the site where the team grades components. One login for both.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The three habits</h2>
+    <p class="sub">This is the job. Each one teaches the next.</p>
+    <div class="grid g3">
+      <div class="tile habit">
+        <h3>Test</h3>
+        <p>When the team ships something, a test run shows up on Base's Testing page with your name on it. Go one feature at a time: Works, Something's off, or Can't test this. Anything else goes through the Feedback button in CampusAI. Fresh eyes are the most useful thing you have, and they fade in about a week.</p>
+        <span class="when">Whenever a run arrives</span>
+      </div>
+      <div class="tile habit">
+        <h3>Grade</h3>
+        <p>Twice a week a routine finds new components and puts each on a card at <a href="https://elevations.vercel.app">elevations.vercel.app</a>. Score each one 1 to 10, with one sentence on why and where it would go. Jacob's score stays hidden until you give yours.</p>
+        <span class="when">Every Thursday</span>
+      </div>
+      <div class="tile habit">
+        <h3>Build</h3>
+        <p>Find something you like, pick one place in CampusAI it would make better, and say it in one sentence: "The Save button on Job Match should fill like this." Open Claude in your copy, paste the link and the sentence, and say add a component.</p>
+        <span class="when">Your own time</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="evaluating">
+  <div class="wrap">
+    <div class="eval-head">
+      <div>
+        <h2>Evaluating the output</h2>
+        <p class="sub" style="margin:0">Claude sounds exactly as sure when it is wrong as when it is right. So the most valuable skill here is not getting Claude to build something. It is deciding whether what it built is actually true. Every check below is here because skipping it already cost us something real.</p>
+      </div>
+      <div class="expect"><b>The habit that makes it easy.</b> Say what you expect before you look. "When I press Add, the event should show up in Your week." Then press it and compare. Without an expectation, whatever appears looks fine.</div>
+    </div>
+    <div class="grid g4">
+      <div class="tile"><span class="n">1</span><h3>"Done" is a claim</h3><p>Open the link and press the thing yourself. Never pass along "it works" that you did not see.</p></div>
+      <div class="tile"><span class="n">2</span><h3>Green is not working</h3><p>We shipped a tour that turned the whole app black with all 2,000 tests passing. Only looking catches that.</p></div>
+      <div class="tile"><span class="n">3</span><h3>Look for what disappeared</h3><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
+      <div class="tile"><span class="n">4</span><h3>Saved is not used</h3><p>A button said Saved while the job feed never moved, because nothing read what it saved. Check what should change.</p></div>
+      <div class="tile"><span class="n">5</span><h3>Your link may only work for you</h3><p>It opens for you because you are logged in. Open it in a private window before sending it.</p></div>
+      <div class="tile"><span class="n">6</span><h3>Perfect data hides problems</h3><p>Try a long name, an empty account, a phone-width window, the back button, pressing twice.</p></div>
+      <div class="tile"><span class="n">7</span><h3>Words must match the screen</h3><p>We have shipped "Roles matching zzzzz" over finance roles. Read every label as the student would.</p></div>
+      <div class="tile"><span class="n">8</span><h3>Check any "it says so"</h3><p>We once called a waitlist live because a code comment said so. It had been deleted two months earlier.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="tile">
+        <h3>What to ask Claude</h3>
+        <ul class="ask">
+          <li><b>What did you change, what did you remove, and what did you not check?</b></li>
+          <li><b>Show me it at phone width, and in dark mode.</b></li>
+          <li><b>What exactly did you click to confirm that works?</b></li>
+          <li><b>If this was wrong, how would we know?</b></li>
+        </ul>
+      </div>
+      <div class="tile">
+        <h3>How to report it</h3>
+        <p>When you send work to Jacob, say which checks you ran and which you did not. "I checked it on a phone and in a private window, I did not try an empty account" is a good report. "Done" is not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Where to look</h2>
+    <p class="sub">Borrow before you build. Someone has almost always made the thing already, and a part used by thousands of people beats one written once in a chat.</p>
+    <div class="label">Ours first</div>
+    <div class="shelf">
+      <a class="lib" href="https://elevations.vercel.app"><b>Elevations</b><span>Components already rebuilt for CampusAI, graded by the team</span></a>
+      <a class="lib" href="https://campusai-demo.vercel.app"><b>The demo</b><span>The real product on sample data. Copy its look</span></a>
+      <a class="lib" href="https://parts-catalogue.vercel.app"><b>Parts catalogue</b><span>Every component on our shelf, with previews</span></a>
+      <a class="lib" href="https://library-mu-murex.vercel.app"><b>Design Library</b><span>Inspiration, and every source we use by job</span></a>
+    </div>
+    <div class="label">Connected to your Claude. Ask it to search these</div>
+    <div class="shelf">
+      <a class="lib" href="https://magicui.design"><b>Magic UI</b><span>Lists, borders, docks, marquees</span></a>
+      <a class="lib" href="https://reactbits.dev"><b>React Bits</b><span>Animated text, backgrounds, effects</span></a>
+      <a class="lib" href="https://motion-primitives.com"><b>Motion Primitives</b><span>Small, clean motion pieces</span></a>
+      <a class="lib" href="https://animate-ui.com"><b>Animate UI</b><span>Everyday parts, animated</span></a>
+      <a class="lib" href="https://smoothui.dev"><b>SmoothUI</b><span>Polished interactions, AI pieces</span></a>
+      <a class="lib" href="https://beui.dev"><b>beUI</b><span>Schedulers, calendars, citations</span></a>
+      <a class="lib" href="https://www.prompt-kit.com"><b>prompt-kit</b><span>Chat and AI interface pieces</span></a>
+      <a class="lib" href="https://www.cult-ui.com"><b>Cult UI</b><span>Polished, unusual components</span></a>
+    </div>
+    <div class="label">For ideas</div>
+    <div class="shelf">
+      <a class="lib" href="https://mobbin.com"><b>Mobbin</b><span>How real apps solve the same screen</span></a>
+      <a class="lib" href="https://godly.website"><b>Godly</b><span>Websites with great motion</span></a>
+      <a class="lib" href="https://www.awwwards.com"><b>Awwwards</b><span>The best websites right now</span></a>
+      <a class="lib" href="https://21st.dev"><b>21st.dev</b><span>A big community library with previews</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap grid g2" style="gap:32px">
+    <div>
+      <h2>Four rules</h2>
+      <ul class="plain rules">
+        <li>Push only to your own copy of the demo.</li>
+        <li>Deploy only to your own Vercel.</li>
+        <li>Never put a real student's information in anything you build.</li>
+        <li>Nothing goes into the real product, gets posted, or is shown to students before Jacob sees it.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Things to say to Claude after</h2>
+      <ul class="plain rules">
+        <li>I'm testing the calendar. Help me go through it like a freshman would.</li>
+        <li>Here's my voice memo. Turn it into feedback I can send.</li>
+        <li>Find me three ways other apps do a filter bar, then build the best one in our style.</li>
+        <li>Is this good? Check it against our hard lines.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">The kit keeps itself current: your Claude pulls the latest each time it starts. Source on <a href="https://github.com/CampusAI-app/campusai-starter">GitHub</a>. Stuck? Message Jacob.</div>
+</footer>
+
+<script>
+  document.querySelectorAll('button.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var text = document.getElementById(b.dataset.copy).textContent;
+      var done = function () { b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1600); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+      else { var r = document.createRange(); r.selectNode(document.getElementById(b.dataset.copy)); getSelection().removeAllRanges(); getSelection().addRange(r); }
+    });
+  });
+</script>
+</body>
+</html>
