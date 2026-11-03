@@ -142,7 +142,7 @@
       <div class="door">
         <div class="who">For you</div>
         <h2>The learning kit</h2>
-        <p>What we do, the three habits the work runs on, how to tell whether what Claude made is actually right, and where the good parts live.</p>
+        <p>How to get your thoughts across to Claude, the three habits the work runs on, how to iterate and tell whether what Claude made is actually right, and where the good parts live.</p>
         <a class="go" href="#start">Start reading</a>
       </div>
       <div class="door claude">
@@ -162,12 +162,14 @@
 <section id="start">
   <div class="wrap">
     <h2>Before you start</h2>
-    <p class="sub">Four things, then about 30 minutes with Claude.</p>
-    <div class="grid g4">
+    <p class="sub">Six things, then about 30 minutes with Claude. Make the GitHub account first, then use Continue with GitHub for Vercel and Supabase so one login covers all three.</p>
+    <div class="grid g3">
       <div class="tile"><h3>A Mac</h3><p>On Windows, tell Jacob first.</p></div>
       <div class="tile"><h3>Claude Pro</h3><p>At claude.ai. The free plan runs out too fast for building.</p></div>
       <div class="tile"><h3>The Claude app</h3><p>From <a href="https://claude.com/download">claude.com/download</a>, signed in. Claude Code is its Code tab.</p></div>
-      <div class="tile"><h3>A GitHub account</h3><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base, then wait for his two invites.</p></div>
+      <div class="tile"><h3>A GitHub account</h3><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base. He makes your own copy of CampusAI and GitHub emails you the invite.</p></div>
+      <div class="tile"><h3>A Vercel account</h3><p>At <a href="https://vercel.com/signup">vercel.com</a>, free Hobby plan. This is what puts anything you build on a link.</p></div>
+      <div class="tile"><h3>A Supabase account</h3><p>At <a href="https://supabase.com/dashboard/sign-up">supabase.com</a>, free plan. The database for when something you build needs to save things.</p></div>
     </div>
   </div>
 </section>
@@ -183,9 +185,24 @@
       <div class="tile"><span class="n">Eight component libraries</span><p>About 3,000 parts, connected so Claude can search them and pull the real code instead of writing from scratch.</p></div>
       <div class="tile"><span class="n">More connections</span><p>Real websites to learn from, Motion's examples, live docs, any GitHub repo explained, and a way for Claude to look at what it built.</p></div>
       <div class="tile"><span class="n">Raylight</span><p>Motion design in the browser for short product videos. Claude drives it for you.</p></div>
-      <div class="tile"><span class="n">Your copy of CampusAI</span><p>The whole product on sample data, on your Mac and on your own live link. Change anything. Nothing touches the real product.</p></div>
+      <div class="tile"><span class="n">Your copy of CampusAI</span><p>The whole product on sample data, at github.com/jdfeigenblum/campusai-demo-yourname, on your Mac and on your own live link. Change anything. Nothing touches the real product.</p></div>
       <div class="tile"><span class="n">GitHub, Vercel, Supabase</span><p>Where code lives, how anything you build gets a link, and a database for when a build needs to save things.</p></div>
       <div class="tile"><span class="n">Base and Elevations</span><p>Your tasks, test runs and updates, and the site where the team grades components. One login for both.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="thoughts">
+  <div class="wrap">
+    <h2>Getting your thoughts across</h2>
+    <p class="sub"><b>This is the most important part.</b> Claude can build almost anything. What it cannot do is guess what you meant. The quality of what comes back depends mostly on how well you said what you wanted, so this is the skill to practise hardest.</p>
+    <div class="grid g3">
+      <div class="tile"><span class="n">Say who and why, not just what</span><p>"A freshman with no resume opens Job Match and has no idea where to start" gets a far better result than "make Job Match better". Start with the student and the moment they are in.</p></div>
+      <div class="tile"><span class="n">Talk, do not type</span><p>Say it out loud with Wispr Flow (free). Rambling is fine. Claude reads the intent, and you say more of what you actually think when you are not editing yourself.</p></div>
+      <div class="tile"><span class="n">Show it</span><p>Paste a link, a screenshot, or a component you like. "Like this, but for our Events page" beats a paragraph describing it.</p></div>
+      <div class="tile"><span class="n">Say what you are reacting to</span><p>Not just "I don't like it". Say why: "three things fight for attention, so I don't know where to look first". That is what Claude can fix.</p></div>
+      <div class="tile"><span class="n">Say how sure you are</span><p>"Make this cleaner" is direction, and Claude will come back with options. "Specifically, make the button red" is exact, and it does just that. "Just go" means build it without checking in first.</p></div>
+      <div class="tile"><span class="n">One thing at a time</span><p>One change per ask. Five changes in one message come back as five half-done changes and no way to tell which one broke something.</p></div>
     </div>
   </div>
 </section>
@@ -193,11 +210,11 @@
 <section>
   <div class="wrap">
     <h2>The three habits</h2>
-    <p class="sub">This is the job. Each one teaches the next.</p>
+    <p class="sub">This is the job, and Jacob will teach you each one. Here is what they are, so you know what is coming.</p>
     <div class="grid g3">
       <div class="tile habit">
-        <h3>Test</h3>
-        <p>When the team ships something, a test run shows up on Base's Testing page with your name on it. Go one feature at a time: Works, Something's off, or Can't test this. Anything else goes through the Feedback button in CampusAI. Fresh eyes are the most useful thing you have, and they fade in about a week.</p>
+        <h3>Base</h3>
+        <p>Base is the team's own platform. Jacob sends you an invite by email: open it, set a password, and sign in at <a href="https://base-one-fawn.vercel.app">base-one-fawn.vercel.app</a>. You will see your Tasks, Updates and Testing. When the team ships something, a test run shows up in Testing with your name on it. Go one feature at a time: Works, Something's off, or Can't test this. Fresh eyes are the most useful thing you have, and they fade in about a week.</p>
         <span class="when">Whenever a run arrives</span>
       </div>
       <div class="tile habit">
@@ -214,24 +231,39 @@
   </div>
 </section>
 
+<section id="iterate">
+  <div class="wrap">
+    <h2>How the iteration process works</h2>
+    <p class="sub">Nothing good comes out right the first time. The first version is a draft, and good work usually takes several rounds. This is the loop every piece of work goes through.</p>
+    <div class="grid g3 steps">
+      <div class="tile"><h3>Say it</h3><p>Who it is for, what is wrong for them, and what you want instead. One thing.</p></div>
+      <div class="tile"><h3>See options first</h3><p>Ask Claude to find two or three ways others already solved it. Borrow before you build.</p></div>
+      <div class="tile"><h3>Pick one</h3><p>Choose the option, or the best parts of two. That call is yours, not Claude's.</p></div>
+      <div class="tile"><h3>Claude builds it</h3><p>In your copy of CampusAI, using the real colours, fonts and components.</p></div>
+      <div class="tile"><h3>Look and evaluate</h3><p>Say what you expect, then press it, on a phone width too. Run the checks below.</p></div>
+      <div class="tile"><h3>Go again, then ship</h3><p>Say exactly what is off and repeat. When it is right, put it on your link and send Jacob the link and your one sentence.</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="evaluating">
   <div class="wrap">
     <div class="eval-head">
       <div>
         <h2>Evaluating the output</h2>
-        <p class="sub" style="margin:0">Claude sounds exactly as sure when it is wrong as when it is right. So the most valuable skill here is not getting Claude to build something. It is deciding whether what it built is actually true. Every check below is here because skipping it already cost us something real.</p>
+        <p class="sub" style="margin:0">Always be looking, evaluating, iterating. Claude sounds exactly as sure when it is wrong as when it is right, so the skill that matters most is not getting Claude to build something. It is looking at what it built, deciding whether it is actually right, and going again until it is. Every check below is here because skipping it already cost us something real.</p>
       </div>
       <div class="expect"><b>The habit that makes it easy.</b> Say what you expect before you look. "When I press Add, the event should show up in Your week." Then press it and compare. Without an expectation, whatever appears looks fine.</div>
     </div>
     <div class="grid g4">
       <div class="tile"><span class="n">1</span><h3>"Done" is a claim</h3><p>Open the link and press the thing yourself. Never pass along "it works" that you did not see.</p></div>
-      <div class="tile"><span class="n">2</span><h3>Green is not working</h3><p>We shipped a tour that turned the whole app black with all 2,000 tests passing. Only looking catches that.</p></div>
-      <div class="tile"><span class="n">3</span><h3>Look for what disappeared</h3><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
-      <div class="tile"><span class="n">4</span><h3>Saved is not used</h3><p>A button said Saved while the job feed never moved, because nothing read what it saved. Check what should change.</p></div>
-      <div class="tile"><span class="n">5</span><h3>Your link may only work for you</h3><p>It opens for you because you are logged in. Open it in a private window before sending it.</p></div>
-      <div class="tile"><span class="n">6</span><h3>Perfect data hides problems</h3><p>Try a long name, an empty account, a phone-width window, the back button, pressing twice.</p></div>
-      <div class="tile"><span class="n">7</span><h3>Words must match the screen</h3><p>We have shipped "Roles matching zzzzz" over finance roles. Read every label as the student would.</p></div>
-      <div class="tile"><span class="n">8</span><h3>Check any "it says so"</h3><p>We once called a waitlist live because a code comment said so. It had been deleted two months earlier.</p></div>
+      <div class="tile"><span class="n">2</span><h3>Look for what disappeared</h3><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
+      <div class="tile"><span class="n">3</span><h3>Saved is not used</h3><p>A button said Saved while the job feed never moved, because nothing read what it saved. Check what should change.</p></div>
+      <div class="tile"><span class="n">4</span><h3>Your link may only work for you</h3><p>It opens for you because you are logged in. Open it in a private window before sending it.</p></div>
+      <div class="tile"><span class="n">5</span><h3>Perfect data hides problems</h3><p>Try a long name, an empty account, a phone-width window, the back button, pressing twice.</p></div>
+      <div class="tile"><span class="n">6</span><h3>Words must match the screen</h3><p>We have shipped "Roles matching zzzzz" over finance roles. Read every label as the student would.</p></div>
+      <div class="tile"><span class="n">7</span><h3>Check any "it says so"</h3><p>We once called a waitlist live because a code comment said so. It had been deleted two months earlier.</p></div>
+      <div class="tile"><span class="n">8</span><h3>Then go again</h3><p>Finding something off is the job, not a failure. Say exactly what is wrong, let Claude fix it, and look again.</p></div>
     </div>
     <div class="grid g2" style="margin-top:12px">
       <div class="tile">
@@ -247,6 +279,18 @@
         <h3>How to report it</h3>
         <p>When you send work to Jacob, say which checks you ran and which you did not. "I checked it on a phone and in a private window, I did not try an empty account" is a good report. "Done" is not.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="connections">
+  <div class="wrap">
+    <h2>How the connections work</h2>
+    <p class="sub">A connection (people call them MCPs) is a plug that lets Claude use another tool directly. Without one, Claude only knows what it remembers. With one, it can go and look something up, or do something for you, live.</p>
+    <div class="grid g3">
+      <div class="tile"><span class="n">You just ask</span><p>You never call a connection yourself. Say what you want in plain words, like "search the component libraries for a button that fills while you hold it" or "put this on my Vercel", and Claude picks the right one.</p></div>
+      <div class="tile"><span class="n">What yours can do</span><p>Search eight component libraries and pull the real code. Look at real websites and Motion's examples. Read up-to-date docs and explain any GitHub repo. Open what it built and check it on a phone width. Deploy to Vercel, use Supabase, and drive Raylight.</p></div>
+      <div class="tile"><span class="n">Seeing and signing in</span><p>Type /mcp in a chat to see every connection and whether it is working. Vercel, Supabase and Raylight ask you to sign in in your browser the first time Claude uses them.</p></div>
     </div>
   </div>
 </section>
