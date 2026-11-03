@@ -18,8 +18,7 @@
     --line: #e9e6e2;
     --red: #c41e2a;
     --red-ink: #a3161f;
-    --red-wash: #fbeeee;
-    --gold: #c99a2e;
+    --bar: rgba(250, 249, 247, 0.82);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -31,119 +30,131 @@
       --line: #2a2527;
       --red: #ff4050;
       --red-ink: #ff6a76;
-      --red-wash: #2a1416;
-      --gold: #e2b54b;
+      --bar: rgba(15, 13, 14, 0.82);
     }
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; }
   body {
     margin: 0; background: var(--bg); color: var(--ink);
-    font: 400 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+    font: 400 16px/1.6 Inter, ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
   a { color: var(--red-ink); text-underline-offset: 3px; }
   h1, h2, h3 { margin: 0; letter-spacing: -0.02em; }
-  h1 { font-size: clamp(36px, 6vw, 60px); line-height: 1.02; font-weight: 700; }
-  h2 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
-  h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
   p { margin: 0; }
-  .lede { color: var(--soft); font-size: 18px; max-width: 640px; margin-top: 14px; }
-  .sub { color: var(--soft); margin-bottom: 20px; max-width: 720px; }
 
-  header { padding: 64px 0 32px; position: relative; overflow: hidden; }
-  header::before {
-    content: ""; position: absolute; inset: -40% -10% auto auto; width: 720px; height: 720px;
-    background: radial-gradient(closest-side, color-mix(in srgb, var(--red) 16%, transparent), transparent);
-    pointer-events: none;
-  }
-  .mark { display: block; margin-bottom: 28px; }
-  .mark img { display: block; height: 32px; width: auto; }
+  /* Top bar */
+  .bar { position: sticky; top: 0; z-index: 10; background: var(--bar); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+  .bar picture img { display: block; height: 22px; width: auto; }
+  .bar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-left: auto; }
+  .bar nav::-webkit-scrollbar { display: none; }
+  .bar nav a { color: var(--soft); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 10px; border-radius: 8px; white-space: nowrap; transition: color 150ms ease, background 150ms ease; }
+  .bar nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .bar nav a.on { color: var(--ink); background: color-mix(in srgb, var(--ink) 7%, transparent); }
 
-  .doors { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; margin-top: 36px; position: relative; }
-  .door { background: var(--surface); border-radius: 18px; padding: 24px; box-shadow: 0 1px 0 var(--line), 0 10px 30px -18px rgba(0,0,0,.25); }
-  .door .who { font-size: 14px; color: var(--faint); margin-bottom: 8px; }
+  /* Hero */
+  header { padding: 56px 0 48px; }
+  h1 { font-size: clamp(36px, 5.6vw, 56px); line-height: 1.04; font-weight: 700; }
+  .lede { color: var(--soft); font-size: 18px; max-width: 620px; margin-top: 14px; }
+  .doors { display: grid; grid-template-columns: 1fr 1.3fr; gap: 16px; margin-top: 36px; }
+  .door { border-radius: 18px; padding: 24px; background: var(--surface); box-shadow: 0 1px 0 var(--line), 0 10px 30px -20px rgba(0,0,0,.3); }
+  .door .who { font-size: 14px; color: var(--faint); margin-bottom: 6px; }
+  .door h2 { font-size: 22px; margin-bottom: 6px; }
   .door p { color: var(--soft); }
-  .door.claude { background: var(--ink); color: var(--bg); }
-  .door.claude .who, .door.claude p { color: color-mix(in srgb, var(--bg) 70%, transparent); }
-  .paste {
-    margin-top: 16px; background: color-mix(in srgb, var(--bg) 9%, transparent); border-radius: 12px;
-    padding: 14px 14px 14px 16px; display: flex; gap: 12px; align-items: flex-start;
-  }
+  .door .go { display: inline-block; margin-top: 14px; font-weight: 600; }
+  .door.claude { background: var(--ink); color: var(--bg); box-shadow: none; }
+  .door.claude .who, .door.claude p { color: color-mix(in srgb, var(--bg) 68%, transparent); }
+  .paste { margin-top: 16px; background: color-mix(in srgb, var(--bg) 9%, transparent); border-radius: 12px; padding: 14px 14px 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
   .paste span { flex: 1; font-weight: 500; color: var(--bg); }
-  button.copy {
-    font: 600 14px Inter, sans-serif; border: 0; border-radius: 9px; padding: 8px 14px; cursor: pointer;
-    background: var(--red); color: #fff; flex: none; transition: transform 120ms ease, background 160ms ease;
-  }
+  button.copy { font: 600 14px Inter, sans-serif; border: 0; border-radius: 9px; padding: 8px 14px; cursor: pointer; background: var(--red); color: #fff; flex: none; transition: transform 120ms ease; }
   button.copy:active { transform: scale(0.97); }
-  button.copy.done { background: #2f2a2c; }
-  .door .go { display: inline-block; margin-top: 16px; font-weight: 600; }
 
-  section { padding: 40px 0; border-top: 1px solid var(--line); }
-  .grid { display: grid; gap: 12px; }
-  .g2 { grid-template-columns: repeat(2, 1fr); }
-  .g3 { grid-template-columns: repeat(3, 1fr); }
-  .g4 { grid-template-columns: repeat(4, 1fr); }
-  .tile { background: var(--surface); border-radius: 14px; padding: 18px; box-shadow: 0 1px 0 var(--line); }
-  .tile p { color: var(--soft); font-size: 15px; }
-  .n { color: var(--red-ink); font-weight: 700; font-size: 14px; margin-bottom: 6px; display: block; }
+  /* Sections: title on the left, content on the right */
+  section { border-top: 1px solid var(--line); padding: 48px 0; }
+  .sec { display: grid; grid-template-columns: 280px 1fr; gap: 48px; }
+  .sec-head { position: sticky; top: 88px; align-self: start; }
+  .sec-head .num { color: var(--red-ink); font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
+  .sec-head h2 { font-size: 24px; line-height: 1.2; }
+  .sec-head p { color: var(--soft); margin-top: 10px; font-size: 15px; }
 
-  .steps { counter-reset: s; }
-  .steps .tile h3::before { counter-increment: s; content: counter(s) ". "; color: var(--red-ink); }
+  /* One row pattern for every list on the page */
+  .rows { border-top: 1px solid var(--line); }
+  .row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-content: start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .row b { font-weight: 600; }
+  .row p { color: var(--soft); }
+  .rows.two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; border-top: 0; }
+  .rows.two .row { grid-template-columns: 1fr; gap: 4px; }
+  .rows.two .row:nth-child(-n+2) { border-top: 1px solid var(--line); }
+  .row .n { color: var(--red-ink); font-weight: 600; margin-right: 6px; }
 
-  .habit { padding: 22px; }
-  .habit h3 { font-size: 20px; margin-bottom: 8px; }
-  .habit .when { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--red-ink); background: var(--red-wash); border-radius: 999px; padding: 4px 10px; }
+  /* The main work, a little bigger */
+  .work .row { padding: 22px 0; }
+  .work .row b { font-size: 18px; }
+  .work .when { display: block; color: var(--faint); font-size: 14px; margin-top: 4px; font-weight: 500; }
 
-  .eval-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: end; margin-bottom: 20px; }
-  .expect { background: var(--red-wash); border-radius: 14px; padding: 18px; }
-  .expect b { color: var(--red-ink); }
-  .ask { margin-top: 12px; }
-  .ask li { margin: 6px 0; color: var(--soft); }
-  .ask li b { color: var(--ink); font-weight: 500; }
+  .note { margin-top: 20px; color: var(--soft); font-size: 15px; }
+  .note b { color: var(--ink); }
 
-  .shelf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .lib { background: var(--surface); border-radius: 12px; padding: 14px 16px; box-shadow: 0 1px 0 var(--line); text-decoration: none; color: inherit; transition: transform 180ms ease, box-shadow 180ms ease; }
-  @media (hover: hover) { .lib:hover { transform: translateY(-2px); box-shadow: 0 1px 0 var(--line), 0 12px 24px -16px rgba(0,0,0,.35); } }
-  .lib b { display: block; font-weight: 600; }
-  .lib span { color: var(--soft); font-size: 14px; }
-  .label { font-size: 15px; font-weight: 600; margin: 22px 0 10px; color: var(--soft); }
+  /* Links shelf */
+  .shelf-label { font-weight: 600; margin: 28px 0 8px; }
+  .shelf-label:first-child { margin-top: 0; }
+  .links { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 32px; }
+  .links a { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+  .links a span { color: var(--faint); font-size: 14px; text-align: right; }
+  .links a:hover b { color: var(--red-ink); }
+  .links a b { font-weight: 500; transition: color 150ms ease; }
 
-  ul.plain { list-style: none; padding: 0; margin: 0; }
-  .rules li { padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 500; }
-  .rules li:last-child { border-bottom: 0; }
-
-  footer { padding: 32px 0 56px; color: var(--faint); font-size: 14px; border-top: 1px solid var(--line); }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--faint); font-size: 14px; }
 
   @media (max-width: 900px) {
-    .doors, .eval-head { grid-template-columns: 1fr; }
-    .g4, .shelf { grid-template-columns: repeat(2, 1fr); }
-    .g3 { grid-template-columns: 1fr; }
+    .sec { grid-template-columns: 1fr; gap: 20px; }
+    .sec-head { position: static; }
+    .doors { grid-template-columns: 1fr; }
   }
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .wrap { padding: 0 16px; }
-    header { padding-top: 40px; }
-    .g2, .g4, .shelf { grid-template-columns: 1fr; }
+    .bar .wrap { gap: 12px; }
+    header { padding-top: 36px; }
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .rows.two, .links { grid-template-columns: 1fr; }
+    .rows.two .row:nth-child(2) { border-top: 0; }
     .paste { flex-direction: column; }
+    .links a span { text-align: left; }
   }
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 </style>
 </head>
 <body>
 
-<header>
+<div class="bar">
   <div class="wrap">
-    <picture class="mark"><source srcset="assets/campusai-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="assets/campusai-logo.svg" alt="CampusAI" width="134" height="32"></picture>
-    <h1>The CampusAI<br>starter kit</h1>
-    <p class="lede">Everything you need to start doing product at CampusAI. One half is what you learn. The other half is what your Claude gets, so it knows how we work from the first chat.</p>
+    <a href="#top" aria-label="CampusAI starter kit, back to top"><picture><source srcset="assets/campusai-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="assets/campusai-logo.svg" alt="CampusAI" width="93" height="22"></picture></a>
+    <nav aria-label="Sections">
+      <a href="#setup">Set up</a>
+      <a href="#thoughts">Your thoughts</a>
+      <a href="#work">The work</a>
+      <a href="#iterate">Iterating</a>
+      <a href="#evaluate">Evaluating</a>
+      <a href="#connections">Connections</a>
+      <a href="#components">Components</a>
+      <a href="#rules">Rules</a>
+    </nav>
+  </div>
+</div>
 
+<header id="top">
+  <div class="wrap">
+    <h1>The CampusAI starter kit</h1>
+    <p class="lede">Everything you need to start doing product at CampusAI. One half is what you learn. The other half is what your Claude gets, so it knows how we work from the first chat.</p>
     <div class="doors">
       <div class="door">
         <div class="who">For you</div>
         <h2>The learning kit</h2>
-        <p>How to get your thoughts across to Claude, the three habits the work runs on, how to iterate and tell whether what Claude made is actually right, and where the good parts live.</p>
-        <a class="go" href="#start">Start reading</a>
+        <p>How to get your thoughts across, what the work is, how to iterate and tell whether what Claude made is right, and where the good parts live.</p>
+        <a class="go" href="#setup">Start reading</a>
       </div>
       <div class="door claude">
         <div class="who">For your Claude</div>
@@ -159,193 +170,189 @@
 </header>
 
 <main>
-<section id="start">
-  <div class="wrap">
-    <h2>Before you start</h2>
-    <p class="sub">Six things, then about 30 minutes with Claude. Make the GitHub account first, then use Continue with GitHub for Vercel and Supabase so one login covers all three.</p>
-    <div class="grid g3">
-      <div class="tile"><h3>A Mac</h3><p>On Windows, tell Jacob first.</p></div>
-      <div class="tile"><h3>Claude Pro</h3><p>At claude.ai. The free plan runs out too fast for building.</p></div>
-      <div class="tile"><h3>The Claude app</h3><p>From <a href="https://claude.com/download">claude.com/download</a>, signed in. Claude Code is its Code tab.</p></div>
-      <div class="tile"><h3>A GitHub account</h3><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base. He makes your own copy of CampusAI and GitHub emails you the invite.</p></div>
-      <div class="tile"><h3>A Vercel account</h3><p>At <a href="https://vercel.com/signup">vercel.com</a>, free Hobby plan. This is what puts anything you build on a link.</p></div>
-      <div class="tile"><h3>A Supabase account</h3><p>At <a href="https://supabase.com/dashboard/sign-up">supabase.com</a>, free plan. The database for when something you build needs to save things.</p></div>
-    </div>
-  </div>
-</section>
 
-<section>
-  <div class="wrap">
-    <h2>What you end up with</h2>
-    <p class="sub">The same tools and shelves the team uses, cut down to the best ones. It all updates itself when Jacob improves the kit.</p>
-    <div class="grid g3">
-      <div class="tile"><span class="n">Claude Code</span><p>Where the work happens. The same Claude, but it can work with files on your Mac, run things and put them online.</p></div>
-      <div class="tile"><span class="n">The CampusAI skill</span><p>Teaches your Claude how we test, grade and build, what Jacob looks for, and the lines that never move.</p></div>
-      <div class="tile"><span class="n">Design skills</span><p>Free skills from designers we trust: Emil Kowalski, Jakub Krehel, transitions.dev, plus Anthropic's design plugin.</p></div>
-      <div class="tile"><span class="n">Eight component libraries</span><p>About 3,000 parts, connected so Claude can search them and pull the real code instead of writing from scratch.</p></div>
-      <div class="tile"><span class="n">More connections</span><p>Real websites to learn from, Motion's examples, live docs, any GitHub repo explained, and a way for Claude to look at what it built.</p></div>
-      <div class="tile"><span class="n">Raylight</span><p>Motion design in the browser for short product videos. Claude drives it for you.</p></div>
-      <div class="tile"><span class="n">Your copy of CampusAI</span><p>The whole product on sample data, at github.com/jdfeigenblum/campusai-demo-yourname, on your Mac and on your own live link. Change anything. Nothing touches the real product.</p></div>
-      <div class="tile"><span class="n">GitHub, Vercel, Supabase</span><p>Where code lives, how anything you build gets a link, and a database for when a build needs to save things.</p></div>
-      <div class="tile"><span class="n">Base and Elevations</span><p>Your tasks, test runs and updates, and the site where the team grades components. One login for both.</p></div>
+<section id="setup">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">1</span>
+      <h2>Set up</h2>
+      <p>Six things first, then about 30 minutes with Claude. Make the GitHub account first, then use Continue with GitHub for Vercel and Supabase so one login covers all three.</p>
+    </div>
+    <div>
+      <div class="rows two">
+        <div class="row"><b>A Mac</b><p>On Windows, tell Jacob first.</p></div>
+        <div class="row"><b>Claude Pro</b><p>At claude.ai. The free plan runs out too fast for building.</p></div>
+        <div class="row"><b>The Claude app</b><p>From <a href="https://claude.com/download">claude.com/download</a>, signed in. Claude Code is its Code tab.</p></div>
+        <div class="row"><b>A GitHub account</b><p>At <a href="https://github.com">github.com</a>. Send Jacob your username and the email you want for Base.</p></div>
+        <div class="row"><b>A Vercel account</b><p>At <a href="https://vercel.com/signup">vercel.com</a>, free. It puts anything you build on a link.</p></div>
+        <div class="row"><b>A Supabase account</b><p>At <a href="https://supabase.com/dashboard/sign-up">supabase.com</a>, free. A database for when a build needs to save things.</p></div>
+      </div>
+      <p class="note"><b>Then paste the line at the top into Claude.</b> It installs everything below and keeps it current: each time Claude starts, it picks up whatever Jacob has improved.</p>
+      <div class="rows" style="margin-top:20px">
+        <div class="row"><b>Your copy of CampusAI</b><p>The whole product on sample data, at github.com/jdfeigenblum/campusai-demo-yourname. Jacob makes it and GitHub emails you the invite. It runs on your Mac and on your own live link, and nothing you do touches the real product.</p></div>
+        <div class="row"><b>The CampusAI skill</b><p>Teaches your Claude how we test, grade and build, what Jacob looks for, and the lines that never move.</p></div>
+        <div class="row"><b>Design skills</b><p>Free skills from designers we trust: Emil Kowalski, Jakub Krehel and transitions.dev, plus Anthropic's design plugin.</p></div>
+        <div class="row"><b>Connections</b><p>Eight component libraries, real websites to learn from, Motion's examples, live docs, a way for Claude to look at what it built, Vercel, Supabase and Raylight. More on these below.</p></div>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="thoughts">
-  <div class="wrap">
-    <h2>Getting your thoughts across</h2>
-    <p class="sub"><b>This is the most important part.</b> Claude can build almost anything. What it cannot do is guess what you meant. The quality of what comes back depends mostly on how well you said what you wanted, so this is the skill to practise hardest.</p>
-    <div class="grid g3">
-      <div class="tile"><span class="n">Say who and why, not just what</span><p>"A freshman with no resume opens Job Match and has no idea where to start" gets a far better result than "make Job Match better". Start with the student and the moment they are in.</p></div>
-      <div class="tile"><span class="n">Talk, do not type</span><p>Say it out loud with Wispr Flow (free). Rambling is fine. Claude reads the intent, and you say more of what you actually think when you are not editing yourself.</p></div>
-      <div class="tile"><span class="n">Show it</span><p>Paste a link, a screenshot, or a component you like. "Like this, but for our Events page" beats a paragraph describing it.</p></div>
-      <div class="tile"><span class="n">Say what you are reacting to</span><p>Not just "I don't like it". Say why: "three things fight for attention, so I don't know where to look first". That is what Claude can fix.</p></div>
-      <div class="tile"><span class="n">Say how sure you are</span><p>"Make this cleaner" is direction, and Claude will come back with options. "Specifically, make the button red" is exact, and it does just that. "Just go" means build it without checking in first.</p></div>
-      <div class="tile"><span class="n">One thing at a time</span><p>One change per ask. Five changes in one message come back as five half-done changes and no way to tell which one broke something.</p></div>
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">2</span>
+      <h2>Getting your thoughts across</h2>
+      <p>The most important part. Claude can build almost anything, but it cannot guess what you meant. What comes back depends mostly on how well you said what you wanted.</p>
+    </div>
+    <div class="rows">
+      <div class="row"><b>Just say it, with Wispr Flow</b><p>Wispr Flow (free) turns what you say into clean text in any app. Hold a key and talk it through. You get your whole thought process across without worrying about every word, and Claude reads the intent. This is how Jacob works.</p></div>
+      <div class="row"><b>Say who and why</b><p>"A freshman with no resume opens Job Match and has no idea where to start" gets a far better result than "make Job Match better". Start with the student and the moment they are in.</p></div>
+      <div class="row"><b>Show it</b><p>Claude mostly reads code. It does not see the page the way you do, so show it: a screenshot of what looks wrong, a link to something you like, a component you want. "Like this, but for our Events page" beats a paragraph.</p></div>
+      <div class="row"><b>Say what you are reacting to</b><p>Not just "I don't like it". Say why: "three things fight for attention, so I don't know where to look first". That is what Claude can fix.</p></div>
+      <div class="row"><b>Say how sure you are</b><p>"Make this cleaner" is direction, and Claude comes back with options. "Specifically, make the button red" is exact, and it does just that. "Just go" means build it without checking in first.</p></div>
+      <div class="row"><b>One thing at a time</b><p>One change per ask. Five changes in one message come back as five half-done changes and no way to tell which one broke something.</p></div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>The three habits</h2>
-    <p class="sub">This is the job, and Jacob will teach you each one. Here is what they are, so you know what is coming.</p>
-    <div class="grid g3">
-      <div class="tile habit">
-        <h3>Base</h3>
-        <p>Base is the team's own platform. Jacob sends you an invite by email: open it, set a password, and sign in at <a href="https://base-one-fawn.vercel.app">base-one-fawn.vercel.app</a>. You will see your Tasks, Updates and Testing. When the team ships something, a test run shows up in Testing with your name on it. Go one feature at a time: Works, Something's off, or Can't test this. Fresh eyes are the most useful thing you have, and they fade in about a week.</p>
-        <span class="when">Whenever a run arrives</span>
+<section id="work">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">3</span>
+      <h2>The work</h2>
+      <p>Testing comes first, because it trains the core skill: noticing when something is wrong for a student and saying exactly what. Jacob will walk you through Base, where all of this lives.</p>
+    </div>
+    <div class="rows work">
+      <div class="row">
+        <div><b>Testing</b><span class="when">Whenever a test run arrives</span></div>
+        <p>When the team ships something, a test run shows up in Base with your name on it. Go through it one feature at a time and answer Works, Something's off, or Can't test this, then give it a 1 to 10. Be a specific student, not yourself: a freshman with no resume, or someone on a phone between classes. Look at what a page shows before you have saved anything, try to break it, and talk out loud as you go. Anything you notice outside a run goes through the Feedback button in CampusAI. Your fresh eyes are the most useful thing you have, and they fade in about a week.</p>
       </div>
-      <div class="tile habit">
-        <h3>Grade</h3>
-        <p>Twice a week a routine finds new components and puts each on a card at <a href="https://elevations.vercel.app">elevations.vercel.app</a>. Score each one 1 to 10, with one sentence on why and where it would go. Jacob's score stays hidden until you give yours.</p>
-        <span class="when">Every Thursday</span>
+      <div class="row">
+        <div><b>Grading</b><span class="when">Every Thursday</span></div>
+        <p>Twice a week a routine finds new components and puts each on a card at <a href="https://elevations.vercel.app">elevations.vercel.app</a>. Score each one 1 to 10, with one sentence on why and where in CampusAI it would go. Jacob's score stays hidden until you give yours.</p>
       </div>
-      <div class="tile habit">
-        <h3>Build</h3>
+      <div class="row">
+        <div><b>Building</b><span class="when">Your own time</span></div>
         <p>Find something you like, pick one place in CampusAI it would make better, and say it in one sentence: "The Save button on Job Match should fill like this." Open Claude in your copy, paste the link and the sentence, and say add a component.</p>
-        <span class="when">Your own time</span>
       </div>
     </div>
   </div>
 </section>
 
 <section id="iterate">
-  <div class="wrap">
-    <h2>How the iteration process works</h2>
-    <p class="sub">Nothing good comes out right the first time. The first version is a draft, and good work usually takes several rounds. This is the loop every piece of work goes through.</p>
-    <div class="grid g3 steps">
-      <div class="tile"><h3>Say it</h3><p>Who it is for, what is wrong for them, and what you want instead. One thing.</p></div>
-      <div class="tile"><h3>See options first</h3><p>Ask Claude to find two or three ways others already solved it. Borrow before you build.</p></div>
-      <div class="tile"><h3>Pick one</h3><p>Choose the option, or the best parts of two. That call is yours, not Claude's.</p></div>
-      <div class="tile"><h3>Claude builds it</h3><p>In your copy of CampusAI, using the real colours, fonts and components.</p></div>
-      <div class="tile"><h3>Look and evaluate</h3><p>Say what you expect, then press it, on a phone width too. Run the checks below.</p></div>
-      <div class="tile"><h3>Go again, then ship</h3><p>Say exactly what is off and repeat. When it is right, put it on your link and send Jacob the link and your one sentence.</p></div>
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">4</span>
+      <h2>Iterating</h2>
+      <p>Nothing good comes out right the first time. The first version is a draft, and good work usually takes several rounds. Every piece of work goes through this loop.</p>
+    </div>
+    <div class="rows">
+      <div class="row"><b><span class="n">1</span>Say it</b><p>Who it is for, what is wrong for them, and what you want instead. One thing.</p></div>
+      <div class="row"><b><span class="n">2</span>See options first</b><p>Ask Claude to find two or three ways others already solved it. Borrow before you build.</p></div>
+      <div class="row"><b><span class="n">3</span>Pick one</b><p>Choose the option, or the best parts of two. That call is yours, not Claude's.</p></div>
+      <div class="row"><b><span class="n">4</span>Claude builds it</b><p>In your copy of CampusAI, with the real colours, fonts and components.</p></div>
+      <div class="row"><b><span class="n">5</span>Look and evaluate</b><p>Say what you expect, then press it, on a phone width too. Run the checks in the next section.</p></div>
+      <div class="row"><b><span class="n">6</span>Go again, then ship</b><p>Say exactly what is off and repeat. When it is right, put it on your link and send Jacob the link and your one sentence.</p></div>
     </div>
   </div>
 </section>
 
-<section id="evaluating">
-  <div class="wrap">
-    <div class="eval-head">
-      <div>
-        <h2>Evaluating the output</h2>
-        <p class="sub" style="margin:0">Always be looking, evaluating, iterating. Claude sounds exactly as sure when it is wrong as when it is right, so the skill that matters most is not getting Claude to build something. It is looking at what it built, deciding whether it is actually right, and going again until it is. Every check below is here because skipping it already cost us something real.</p>
-      </div>
-      <div class="expect"><b>The habit that makes it easy.</b> Say what you expect before you look. "When I press Add, the event should show up in Your week." Then press it and compare. Without an expectation, whatever appears looks fine.</div>
+<section id="evaluate">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">5</span>
+      <h2>Evaluating the output</h2>
+      <p>Always be looking, evaluating, iterating. Claude sounds just as sure when it is wrong as when it is right, so look at what it built and decide whether it is actually right. Each check is here because skipping it already cost us something.</p>
     </div>
-    <div class="grid g4">
-      <div class="tile"><span class="n">1</span><h3>"Done" is a claim</h3><p>Open the link and press the thing yourself. Never pass along "it works" that you did not see.</p></div>
-      <div class="tile"><span class="n">2</span><h3>Look for what disappeared</h3><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
-      <div class="tile"><span class="n">3</span><h3>Saved is not used</h3><p>A button said Saved while the job feed never moved, because nothing read what it saved. Check what should change.</p></div>
-      <div class="tile"><span class="n">4</span><h3>Your link may only work for you</h3><p>It opens for you because you are logged in. Open it in a private window before sending it.</p></div>
-      <div class="tile"><span class="n">5</span><h3>Perfect data hides problems</h3><p>Try a long name, an empty account, a phone-width window, the back button, pressing twice.</p></div>
-      <div class="tile"><span class="n">6</span><h3>Words must match the screen</h3><p>We have shipped "Roles matching zzzzz" over finance roles. Read every label as the student would.</p></div>
-      <div class="tile"><span class="n">7</span><h3>Check any "it says so"</h3><p>We once called a waitlist live because a code comment said so. It had been deleted two months earlier.</p></div>
-      <div class="tile"><span class="n">8</span><h3>Then go again</h3><p>Finding something off is the job, not a failure. Say exactly what is wrong, let Claude fix it, and look again.</p></div>
-    </div>
-    <div class="grid g2" style="margin-top:12px">
-      <div class="tile">
-        <h3>What to ask Claude</h3>
-        <ul class="ask">
-          <li><b>What did you change, what did you remove, and what did you not check?</b></li>
-          <li><b>Show me it at phone width, and in dark mode.</b></li>
-          <li><b>What exactly did you click to confirm that works?</b></li>
-          <li><b>If this was wrong, how would we know?</b></li>
-        </ul>
+    <div>
+      <p class="note" style="margin:0 0 20px"><b>The habit that makes it easy: say what you expect before you look.</b> "When I press Add, the event should show up in Your week." Then press it and compare. Without an expectation, whatever appears looks fine.</p>
+      <div class="rows two">
+        <div class="row"><b><span class="n">1</span>"Done" is a claim</b><p>Open the link and press the thing yourself. Never pass along "it works" that you did not see.</p></div>
+        <div class="row"><b><span class="n">2</span>Look for what disappeared</b><p>A change can quietly remove something. One of ours deleted an onboarding question meant to stay.</p></div>
+        <div class="row"><b><span class="n">3</span>Saved is not used</b><p>A button said Saved while the job feed never moved, because nothing read what it saved.</p></div>
+        <div class="row"><b><span class="n">4</span>Your link may only work for you</b><p>It opens because you are logged in. Open it in a private window before sending it.</p></div>
+        <div class="row"><b><span class="n">5</span>Perfect data hides problems</b><p>Try a long name, an empty account, a phone width, the back button, pressing twice.</p></div>
+        <div class="row"><b><span class="n">6</span>Words must match the screen</b><p>We once shipped "Roles matching zzzzz" over finance roles. Read every label as the student.</p></div>
+        <div class="row"><b><span class="n">7</span>Check any "it says so"</b><p>We called a waitlist live because a code comment said so. It had been deleted months earlier.</p></div>
+        <div class="row"><b><span class="n">8</span>Then go again</b><p>Finding something off is the job, not a failure. Say exactly what is wrong, and look again.</p></div>
       </div>
-      <div class="tile">
-        <h3>How to report it</h3>
-        <p>When you send work to Jacob, say which checks you ran and which you did not. "I checked it on a phone and in a private window, I did not try an empty account" is a good report. "Done" is not.</p>
+      <div class="rows two" style="margin-top:28px">
+        <div class="row"><b>What to ask Claude</b><p>"What did you change, what did you remove, and what did you not check?" "Show me it at phone width, and in dark mode." "What exactly did you click to confirm it works?" "If this was wrong, how would we know?"</p></div>
+        <div class="row"><b>How to report it</b><p>Say which checks you ran and which you did not. "I checked it on a phone and in a private window, I did not try an empty account" is a good report. "Done" is not.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <section id="connections">
-  <div class="wrap">
-    <h2>How the connections work</h2>
-    <p class="sub">A connection (people call them MCPs) is a plug that lets Claude use another tool directly. Without one, Claude only knows what it remembers. With one, it can go and look something up, or do something for you, live.</p>
-    <div class="grid g3">
-      <div class="tile"><span class="n">You just ask</span><p>You never call a connection yourself. Say what you want in plain words, like "search the component libraries for a button that fills while you hold it" or "put this on my Vercel", and Claude picks the right one.</p></div>
-      <div class="tile"><span class="n">What yours can do</span><p>Search eight component libraries and pull the real code. Look at real websites and Motion's examples. Read up-to-date docs and explain any GitHub repo. Open what it built and check it on a phone width. Deploy to Vercel, use Supabase, and drive Raylight.</p></div>
-      <div class="tile"><span class="n">Seeing and signing in</span><p>Type /mcp in a chat to see every connection and whether it is working. Vercel, Supabase and Raylight ask you to sign in in your browser the first time Claude uses them.</p></div>
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">6</span>
+      <h2>How the connections work</h2>
+      <p>A connection (people call them MCPs) is a plug that lets Claude use another tool directly. Without one, Claude only knows what it remembers. With one, it can look something up or do something for you, live.</p>
+    </div>
+    <div class="rows">
+      <div class="row"><b>You just ask</b><p>You never call a connection yourself. Say what you want in plain words, like "search the component libraries for a button that fills while you hold it" or "put this on my Vercel", and Claude picks the right one.</p></div>
+      <div class="row"><b>What yours can do</b><p>Search eight component libraries and pull the real code. Look at real websites and Motion's examples. Read up-to-date docs and explain any GitHub repo. Open what it built and check it at phone width. Deploy to Vercel, use Supabase, and drive Raylight for short product videos.</p></div>
+      <div class="row"><b>Seeing and signing in</b><p>Type /mcp in a chat to see every connection and whether it works. Vercel, Supabase and Raylight ask you to sign in in your browser the first time Claude uses them.</p></div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Where to look</h2>
-    <p class="sub">Borrow before you build. Someone has almost always made the thing already, and a part used by thousands of people beats one written once in a chat.</p>
-    <div class="label">Ours first</div>
-    <div class="shelf">
-      <a class="lib" href="https://elevations.vercel.app"><b>Elevations</b><span>Components already rebuilt for CampusAI, graded by the team</span></a>
-      <a class="lib" href="https://campusai-demo.vercel.app"><b>The demo</b><span>The real product on sample data. Copy its look</span></a>
-      <a class="lib" href="https://parts-catalogue.vercel.app"><b>Parts catalogue</b><span>Every component on our shelf, with previews</span></a>
-      <a class="lib" href="https://library-mu-murex.vercel.app"><b>Design Library</b><span>Inspiration, and every source we use by job</span></a>
+<section id="components">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">7</span>
+      <h2>Components and where to look</h2>
+      <p>Borrow before you build. Someone has almost always made the thing already, and a part used by thousands of people beats one written once in a chat.</p>
     </div>
-    <div class="label">Connected to your Claude. Ask it to search these</div>
-    <div class="shelf">
-      <a class="lib" href="https://magicui.design"><b>Magic UI</b><span>Lists, borders, docks, marquees</span></a>
-      <a class="lib" href="https://reactbits.dev"><b>React Bits</b><span>Animated text, backgrounds, effects</span></a>
-      <a class="lib" href="https://motion-primitives.com"><b>Motion Primitives</b><span>Small, clean motion pieces</span></a>
-      <a class="lib" href="https://animate-ui.com"><b>Animate UI</b><span>Everyday parts, animated</span></a>
-      <a class="lib" href="https://smoothui.dev"><b>SmoothUI</b><span>Polished interactions, AI pieces</span></a>
-      <a class="lib" href="https://beui.dev"><b>beUI</b><span>Schedulers, calendars, citations</span></a>
-      <a class="lib" href="https://www.prompt-kit.com"><b>prompt-kit</b><span>Chat and AI interface pieces</span></a>
-      <a class="lib" href="https://www.cult-ui.com"><b>Cult UI</b><span>Polished, unusual components</span></a>
-    </div>
-    <div class="label">For ideas</div>
-    <div class="shelf">
-      <a class="lib" href="https://mobbin.com"><b>Mobbin</b><span>How real apps solve the same screen</span></a>
-      <a class="lib" href="https://godly.website"><b>Godly</b><span>Websites with great motion</span></a>
-      <a class="lib" href="https://www.awwwards.com"><b>Awwwards</b><span>The best websites right now</span></a>
-      <a class="lib" href="https://21st.dev"><b>21st.dev</b><span>A big community library with previews</span></a>
+    <div>
+      <div class="shelf-label">Ours first</div>
+      <div class="links">
+        <a href="https://elevations.vercel.app"><b>Elevations</b><span>Rebuilt for CampusAI, graded by the team</span></a>
+        <a href="https://campusai-demo.vercel.app"><b>The demo</b><span>The real product on sample data</span></a>
+        <a href="https://parts-catalogue.vercel.app"><b>Parts catalogue</b><span>Every part on our shelf, with previews</span></a>
+        <a href="https://library-mu-murex.vercel.app"><b>Design Library</b><span>Inspiration, and every source we use</span></a>
+      </div>
+      <div class="shelf-label">Connected to your Claude, so just ask it to search them</div>
+      <div class="links">
+        <a href="https://magicui.design"><b>Magic UI</b><span>Lists, borders, docks, marquees</span></a>
+        <a href="https://reactbits.dev"><b>React Bits</b><span>Animated text, backgrounds, effects</span></a>
+        <a href="https://motion-primitives.com"><b>Motion Primitives</b><span>Small, clean motion pieces</span></a>
+        <a href="https://animate-ui.com"><b>Animate UI</b><span>Everyday parts, animated</span></a>
+        <a href="https://smoothui.dev"><b>SmoothUI</b><span>Polished interactions, AI pieces</span></a>
+        <a href="https://beui.dev"><b>beUI</b><span>Schedulers, calendars, citations</span></a>
+        <a href="https://www.prompt-kit.com"><b>prompt-kit</b><span>Chat and AI interface pieces</span></a>
+        <a href="https://www.cult-ui.com"><b>Cult UI</b><span>Polished, unusual components</span></a>
+      </div>
+      <div class="shelf-label">For ideas</div>
+      <div class="links">
+        <a href="https://mobbin.com"><b>Mobbin</b><span>How real apps solve the same screen</span></a>
+        <a href="https://godly.website"><b>Godly</b><span>Websites with great motion</span></a>
+        <a href="https://www.awwwards.com"><b>Awwwards</b><span>The best websites right now</span></a>
+        <a href="https://21st.dev"><b>21st.dev</b><span>A big community library</span></a>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap grid g2" style="gap:32px">
-    <div>
-      <h2>Four rules</h2>
-      <ul class="plain rules">
-        <li>Push only to your own copy of the demo.</li>
-        <li>Deploy only to your own Vercel.</li>
-        <li>Never put a real student's information in anything you build.</li>
-        <li>Nothing goes into the real product, gets posted, or is shown to students before Jacob sees it.</li>
-      </ul>
+<section id="rules">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="num">8</span>
+      <h2>Rules, and what to say first</h2>
+      <p>Four rules that never move, and a few things to try once you are set up.</p>
     </div>
-    <div>
-      <h2>Things to say to Claude after</h2>
-      <ul class="plain rules">
-        <li>I'm testing the calendar. Help me go through it like a freshman would.</li>
-        <li>Here's my voice memo. Turn it into feedback I can send.</li>
-        <li>Find me three ways other apps do a filter bar, then build the best one in our style.</li>
-        <li>Is this good? Check it against our hard lines.</li>
-      </ul>
+    <div class="rows two">
+      <div class="row"><b>Push only to your own copy</b><p>Your copy of the demo is yours. Nothing else.</p></div>
+      <div class="row"><b>"I'm testing the calendar. Help me go through it like a freshman would."</b></div>
+      <div class="row"><b>Deploy only to your own Vercel</b><p>Never anyone else's account.</p></div>
+      <div class="row"><b>"Here's my voice memo. Turn it into feedback I can send."</b></div>
+      <div class="row"><b>No real student information</b><p>Not in a prompt, a file or a build. Make up a sample student.</p></div>
+      <div class="row"><b>"Find three ways other apps do a filter bar, then build the best one in our style."</b></div>
+      <div class="row"><b>Jacob sees it first</b><p>Nothing goes into the real product, gets posted, or reaches students before he does.</p></div>
+      <div class="row"><b>"Is this good? Check it against our hard lines."</b></div>
     </div>
   </div>
 </section>
@@ -359,11 +366,27 @@
   document.querySelectorAll('button.copy').forEach(function (b) {
     b.addEventListener('click', function () {
       var text = document.getElementById(b.dataset.copy).textContent;
-      var done = function () { b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1600); };
-      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
-      else { var r = document.createRange(); r.selectNode(document.getElementById(b.dataset.copy)); getSelection().removeAllRanges(); getSelection().addRange(r); }
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = 'Copied';
+        setTimeout(function () { b.textContent = 'Copy'; }, 1600);
+      }, function () {});
     });
   });
+  // Mark the section you are reading in the top bar.
+  var links = {};
+  document.querySelectorAll('.bar nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || !links[e.target.id]) return;
+        Object.values(links).forEach(function (a) { a.classList.remove('on'); });
+        links[e.target.id].classList.add('on');
+        links[e.target.id].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section').forEach(function (s) { io.observe(s); });
+  }
 </script>
 </body>
 </html>
