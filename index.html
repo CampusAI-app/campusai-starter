@@ -151,7 +151,7 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--f
   <div class="wrap">
     <a href="#top" aria-label="Back to top"><img class="ll" src="assets/campusai-logo.svg" alt="CampusAI" width="93" height="22"><img class="ld" src="assets/campusai-logo-white.svg" alt="CampusAI" width="93" height="22"></a>
     <nav aria-label="Sections">
-      <a href="#setup">Set up</a><a href="#thoughts">Your thoughts</a><a href="#work">The work</a><a href="#evaluate">Evaluating</a><a href="#connections">Skills</a><a href="#feed">Your feed</a><a href="#rules">Rules</a>
+      <a href="#setup">Set up</a><a href="#thoughts">Your thoughts</a><a href="#work">The work</a><a href="#evaluate">Evaluating</a><a href="#connections">Skills</a><a href="#feed">Your feed</a><a href="#content">Content</a><a href="#rules">Rules</a>
     </nav>
   </div>
 </div>
@@ -331,9 +331,27 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--f
   </div>
 </section>
 
+<section id="content">
+  <div class="wrap">
+    <div class="head"><h2><span class="n">7</span>Making content</h2><p>For anyone making CampusAI videos and graphics. The studio is the same one Jacob uses, so every rule and part in it is his, and it stays current on its own.</p></div>
+    <div class="grid g4">
+      <div class="card"><span class="k">1</span><h3>Have four things</h3><p>Git, Node (the LTS button at nodejs.org), Google Chrome and the Claude app. On Windows, also Git for Windows.</p></div>
+      <div class="card"><span class="k">2</span><h3>Paste the line</h3><p>Claude installs the studio, its fonts and its skills, and stops when it needs you.</p></div>
+      <div class="card"><span class="k">3</span><h3>Say what you want</h3><p>"Cut my study spot interviews and end on CampusAI answering." It pitches an idea and a structure first, and builds only once you pick. Or name a style: "/teardown the planner".</p></div>
+      <div class="card"><span class="k">4</span><h3>Send it to Jacob</h3><p>A Base task called "Video review:" plus what it shows, with the file attached. Nothing gets posted until he says yes there.</p></div>
+    </div>
+    <div class="door claude" style="margin-top:16px">
+      <div class="who">For your Claude</div>
+      <h3>One line to paste</h3>
+      <div class="paste"><span>Set me up with the CampusAI studio. Follow the Set up section of https://github.com/CampusAI-app/campusai-studio/blob/main/README.md step by step.</span><button class="copy" type="button">Copy</button></div>
+    </div>
+    <p class="note"><b>It keeps itself current.</b> Every time Claude starts, in any folder, it pulls Jacob's latest rules and parts and says so. Set up before November 3? Paste the line once more and updates reach you everywhere, not only inside the studio folder.</p>
+  </div>
+</section>
+
 <section id="rules">
   <div class="wrap">
-    <div class="head"><h2><span class="n">7</span>Four rules</h2><p>These never move.</p></div>
+    <div class="head"><h2><span class="n">8</span>Four rules</h2><p>These never move.</p></div>
     <div class="grid g4">
       <div class="card"><h3>Your own copy only</h3><p>Push only to your copy of the demo.</p></div>
       <div class="card"><h3>Your own Vercel only</h3><p>Never deploy to anyone else's.</p></div>
@@ -347,12 +365,13 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 56px; color: var(--f
 <footer><div class="wrap">The kit keeps itself current: your Claude pulls the latest each time it starts. Source on <a href="https://github.com/CampusAI-app/campusai-starter">GitHub</a>. Stuck? Message Jacob.</div></footer>
 
 <script>
-  document.querySelector('.copy').addEventListener('click', function (e) {
-    var b = e.currentTarget;
-    if (!navigator.clipboard) return;
-    navigator.clipboard.writeText(document.getElementById('line').textContent).then(function () {
-      b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600);
-    }, function () {});
+  document.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600);
+      }, function () {});
+    });
   });
 
   // One slow row: repeat the track so it loops without a gap.
