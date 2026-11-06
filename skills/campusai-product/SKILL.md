@@ -34,6 +34,7 @@ sent to Jacob.
 | wondering who to learn from | `creators.md` |
 | deciding whether something is good | `taste.md` |
 | about to call something done, or checking what Claude made | `evaluating.md` |
+| sending a change into the real CampusAI, or practicing that on their own copy | `sending-a-pr.md` |
 | about to show anything to anyone | `hard-lines.md` |
 
 `elevations-catalogue.md` is long (every component found so far). Search it for a page name or a
