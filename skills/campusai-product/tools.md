@@ -8,7 +8,8 @@
 | **Supabase** | The database and file storage behind a small app, if your build needs to save anything. | Free (two projects) |
 | **GitHub** | Where code and skills live. Read a repo before using it, and keep your own projects there. | Free |
 | **Raylight** | Motion design in the browser, for product videos and animated demos. | Free plan (1080p, small badge) |
-| **Mobbin** | Screens and flows from real apps, to see how others solved the same page. | Free tier is limited |
+| **Mobbin** | Screens and flows from real apps, to see how others solved the same page. Search it in the browser and paste screenshots; Claude's own Mobbin connection needs a paid plan. | Free tier is limited |
+| **Inspo** | Real production websites (screenshots, colours, fonts, page layouts) that Claude can search itself. Connected during setup. How to use it: `finding-inspiration.md`. | Free |
 
 ## Vercel, the one habit
 After a deploy, open the link in a private window before sending it. If it asks you to log in to

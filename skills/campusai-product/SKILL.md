@@ -1,6 +1,6 @@
 ---
 name: campusai-product
-description: How product work is done at CampusAI. Use whenever the user is testing the CampusAI platform, writing up feedback or a bug, grading a component, finding parts to build with, building or changing a page, demo or prototype, or asks "how do I", "what should I do next", "make this better", "is this good". Carries the testing method, the borrow-before-build loop, how to grade a component, the creators we learn from, and the lines that never move.
+description: How product work is done at CampusAI. Use whenever the user is testing the CampusAI platform, writing up feedback or a bug, grading a component, finding parts to build with, looking for inspiration or how other apps solved a screen, building or changing a page, demo or prototype, or asks "how do I", "what should I do next", "make this better", "is this good". Carries the testing method, the borrow-before-build loop, how to find and use inspiration, how to grade a component, the creators we learn from, and the lines that never move.
 ---
 
 # CampusAI product work
@@ -29,7 +29,8 @@ sent to Jacob.
 | scoring components on the grading site | `grading.md` |
 | making an existing page more intuitive or more animated | `your-own-pass.md` |
 | building or changing anything | `building.md`, then `craft.md` |
-| looking for a component, a library or inspiration | `elevations-catalogue.md` first, then `where-parts-live.md` |
+| looking for a component or a library | `elevations-catalogue.md` first, then `where-parts-live.md` |
+| looking for inspiration, or how others solved the same screen | `finding-inspiration.md`, then `where-parts-live.md` for where to look |
 | wondering which tool to use, or setting up Vercel or Raylight | `tools.md` |
 | wondering who to learn from | `creators.md` |
 | deciding whether something is good | `taste.md` |

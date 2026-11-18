@@ -24,6 +24,14 @@ do not pile up everyone's skills side by side, because skills that overlap fight
 | Code and Chill | Instagram @_code_and_chill_ | Product dashboards with real motion, with the code shown. |
 | Orbix Studio | Instagram @orbixdashboard | Dashboards where each card answers one question. |
 | Kailash | Instagram @kail.designs · X @kail_designs | Backgrounds, icons, gradient effects. |
+| S Zee Ahmed | Instagram @zeeuiux | Product launch films built from real UI: one idea per scene, the interface pulled apart into floating cards. |
+| Ravie | ravie.co | Launch films told only through the product's own screens. Includes one for an AI study tool for law students, the closest audience to ours. |
+| Unseen Studio | unseen.co | Calm, textured product storytelling sites. Close to the tone CampusAI wants with universities. |
+| Elia Kuratli | X @eliakuratli · uiarc.dev | Arc Library, polished motion components. |
+| John Paul (dqnamo) | X @dqnamo · dqnamo.com/kitchen | The Kitchen, a running set of small interface experiments. Good for ideas, look only (no licence). |
+| Henrique Barone | microkit.co | MicroKit, small micro-interactions: toggles, presses, confirms. |
+| Meng To | X @MengTo | Design skills for Claude and 3D web components. When he publishes a skill, read it for ideas. |
+| Tak Hoffman | X @cherry_mx_reds · oneshotprompts.com | Hundreds of named motion techniques with plain definitions. Gives you the words to ask Claude for exactly the motion you mean. |
 
 ## Using them
 
